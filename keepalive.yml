@@ -1,0 +1,75 @@
+name: Keep Render Warm
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Ping service
+        env:
+          KEEPALIVE_URL: ${{ vars.KEEPALIVE_URL }}
+          KEEPALIVE_URLS: ${{ vars.KEEPALIVE_URLS }}
+          KEEPALIVE_HEADER: ${{ secrets.KEEPALIVE_HEADER }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=(
+            --silent
+            --show-error
+            --location
+            --max-time 20
+            --connect-timeout 10
+            --retry 3
+            --retry-delay 2
+            --retry-all-errors
+            --write-out "%{http_code}"
+            --output /tmp/keepalive_body.txt
+          )
+          if [[ -n "${KEEPALIVE_HEADER:-}" ]]; then
+            args+=( -H "${KEEPALIVE_HEADER}" )
+          fi
+          urls_raw="${KEEPALIVE_URLS:-}"
+          if [[ -z "${urls_raw}" ]]; then
+            urls_raw="${KEEPALIVE_URL:-}"
+          fi
+          if [[ -z "${urls_raw}" ]]; then
+            echo "Set KEEPALIVE_URLS (recommended) or KEEPALIVE_URL as a repo variable."
+            exit 1
+          fi
+
+          failures=0
+          count=0
+          while IFS= read -r url; do
+            url="$(echo "${url}" | tr -d '\r')"
+            [[ -z "${url}" ]] && continue
+            [[ "${url}" =~ ^[[:space:]]*# ]] && continue
+            count=$((count + 1))
+            if [[ "${count}" -gt 10 ]]; then
+              echo "More than 10 URLs provided; stopping at 10."
+              break
+            fi
+            code="$(curl "${args[@]}" "${url}")" || code="000"
+            echo "${url} -> HTTP ${code}"
+            if [[ "${code}" -lt 200 || "${code}" -ge 400 ]]; then
+              echo "Body:"
+              cat /tmp/keepalive_body.txt || true
+              failures=$((failures + 1))
+            fi
+          done <<< "${urls_raw}"
+
+          if [[ "${count}" -eq 0 ]]; then
+            echo "No valid URLs found in KEEPALIVE_URLS/KEEPALIVE_URL."
+            exit 1
+          fi
+          if [[ "${failures}" -gt 0 ]]; then
+            echo "${failures}/${count} pings failed."
+            exit 1
+          fi
