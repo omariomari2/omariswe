@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import assert from 'node:assert/strict';
 
 const html = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+const normalized = html.replaceAll('&amp;', '&');
 
 for (const id of ['top', 'about', 'experience', 'projects', 'contact']) {
   assert.match(html, new RegExp(`id=["']${id}["']`), `missing #${id} section`);
@@ -23,7 +24,7 @@ for (const company of [
   'Maddy Group Ltd',
   'GSU College of Arts & Science, Digital Technologies',
 ]) {
-  assert.match(html, new RegExp(company.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')), `missing experience: ${company}`);
+  assert.match(normalized, new RegExp(company.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')), `missing experience: ${company}`);
 }
 
 for (const project of ['Immigration Assistant', 'Uncluster', 'Go-Shop', 'WVS 1.02', 'LintKit']) {
