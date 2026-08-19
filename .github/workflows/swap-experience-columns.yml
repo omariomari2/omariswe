@@ -1,0 +1,79 @@
+name: Swap experience columns
+
+on:
+  push:
+    branches:
+      - agent/single-page-portfolio
+    paths:
+      - .github/workflows/swap-experience-columns.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/single-page-portfolio
+          fetch-depth: 0
+
+      - name: Swap company and role presentation
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('index.html')
+          html = path.read_text()
+
+          old_header = '<div class="grid-sub-title-design" style="width:100%; display:flex;"><div class="flex-col"><h5>Role</h5></div><div class="flex-col"><h5>Company</h5></div><div class="flex-col"><h5>Period</h5></div></div>'
+          new_header = '<div class="grid-sub-title-design" style="width:100%; display:flex;"><div class="flex-col"><h5>Company</h5></div><div class="flex-col"><h5>Role</h5></div><div class="flex-col"><h5>Period</h5></div></div>'
+          assert html.count(old_header) == 1, 'experience header pattern changed'
+          html = html.replace(old_header, new_header, 1)
+
+          experiences = [
+              ('Product Security Intern', 'Palo Alto Networks'),
+              ('AI Automation Extern', 'Wayfair'),
+              ('Software Engineer', 'Orda Rides'),
+              ('Software Engineering Intern', 'Maddy Group Ltd'),
+              ('Undergraduate Researcher', 'GSU College of Arts &amp; Science, Digital Technologies'),
+          ]
+
+          for role, company in experiences:
+              desktop_old = f'<div class="flex-col"><h4><span>{role}</span></h4></div>\n                  <div class="flex-col animate"><p>{company}</p></div>'
+              desktop_new = f'<div class="flex-col"><h4><span>{company}</span></h4></div>\n                  <div class="flex-col animate"><p>{role}</p></div>'
+              assert html.count(desktop_old) == 1, f'desktop pattern missing for {company}'
+              html = html.replace(desktop_old, desktop_new, 1)
+
+              mobile_old = f'<div class="flex-col"><h4><span>{role}</span></h4><div class="stripe"></div></div>\n                  <div class="flex-col"><p>{company}</p></div>'
+              mobile_new = f'<div class="flex-col"><h4><span>{company}</span></h4><div class="stripe"></div></div>\n                  <div class="flex-col"><p>{role}</p></div>'
+              assert html.count(mobile_old) == 1, f'mobile pattern missing for {company}'
+              html = html.replace(mobile_old, mobile_new, 1)
+
+          path.write_text(html)
+          PY
+
+      - name: Verify portfolio structure
+        run: node tests/single-page-portfolio-check.mjs
+
+      - name: Verify swapped experience order
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          html = Path('index.html').read_text()
+          assert '<h5>Company</h5></div><div class="flex-col"><h5>Role</h5>' in html
+          assert '<h4><span>Palo Alto Networks</span></h4>' in html
+          assert '<p>Product Security Intern</p>' in html
+          assert '<h4><span>GSU College of Arts &amp; Science, Digital Technologies</span></h4>' in html
+          print('experience column order: ok')
+          PY
+
+      - name: Commit patch and remove temporary workflow
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/swap-experience-columns.yml
+          git add index.html
+          git commit -m "Swap experience company and role columns"
+          git push origin HEAD:agent/single-page-portfolio
