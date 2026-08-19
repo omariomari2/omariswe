@@ -1,0 +1,74 @@
+name: Restore More work button
+
+on:
+  push:
+    branches:
+      - agent/single-page-portfolio
+    paths:
+      - .github/workflows/restore-more-work.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/single-page-portfolio
+          fetch-depth: 0
+
+      - name: Restore More work button
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('index.html')
+          html = path.read_text()
+          marker = '''      <div class="footer-rounded-div" data-scroll-section>'''
+          assert marker in html, 'footer marker not found'
+          assert 'href="https://github.com/omariomari2"' in html, 'GitHub profile link missing elsewhere'
+          assert '>More work<' not in html, 'More work button already exists'
+
+          block = '''      <section class="section center-grid-btn center-grid-btn-home" data-scroll-section>
+        <div class="container">
+          <div class="grid-after-btn">
+            <div class="btn btn-normal">
+              <a href="https://github.com/omariomari2" target="_blank" rel="noopener noreferrer" class="btn-click magnetic" data-strength="25" data-strength-text="15">
+                <div class="btn-fill"></div>
+                <span class="btn-text">
+                  <span class="btn-text-inner change">More work</span>
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+'''
+          html = html.replace(marker, block + marker, 1)
+          path.write_text(html)
+          PY
+
+      - name: Verify portfolio structure
+        run: node tests/single-page-portfolio-check.mjs
+
+      - name: Verify More work link
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          html = Path('index.html').read_text()
+          assert '<span class="btn-text-inner change">More work</span>' in html
+          assert 'href="https://github.com/omariomari2" target="_blank" rel="noopener noreferrer" class="btn-click magnetic"' in html
+          print('More work button: ok')
+          PY
+
+      - name: Commit patch and remove temporary workflow
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/restore-more-work.yml
+          git add index.html
+          git commit -m "Restore More work GitHub link"
+          git push origin HEAD:agent/single-page-portfolio
