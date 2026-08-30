@@ -76,7 +76,7 @@ main.touch .main-wrap {
    position: relative;
    padding: 0;
    width: 100%;
-   height: 100%;
+   height: 100vh;
    left: 0;
    will-change: top;
 }
@@ -760,7 +760,9 @@ main.touch .main-wrap {
 /* ------------------------- Home - Header -------------------------------------------------- */
 
 .home-header {
-   min-height: 115vh;
+   height: 100vh;
+   min-height: 100vh;
+   max-height: 100vh;
    display: flex;
    align-items: center;
    background: #000;
@@ -784,17 +786,65 @@ main.touch .main-wrap {
    background: #000;
 }
 
+@property --hero-cloud-x {
+   syntax: "<length>";
+   inherits: false;
+   initial-value: 0px;
+}
+
+@property --hero-cloud-y {
+   syntax: "<length>";
+   inherits: false;
+   initial-value: 0px;
+}
+
+@property --hero-cloud-tilt {
+   syntax: "<angle>";
+   inherits: false;
+   initial-value: 0deg;
+}
+
+@property --hero-cloud-bob-y {
+   syntax: "<length>";
+   inherits: false;
+   initial-value: 0px;
+}
+
+@property --hero-cloud-bob-tilt {
+   syntax: "<angle>";
+   inherits: false;
+   initial-value: 0deg;
+}
+
 .home-header .personal-image img {
+   --hero-cloud-x: 0px;
+   --hero-cloud-y: 0px;
+   --hero-cloud-tilt: 0deg;
+   --hero-cloud-bob-y: 0px;
+   --hero-cloud-bob-tilt: 0deg;
    width: auto;
-   height: 25%;
+   height: 45.5%;
    object-fit: contain;
    position: absolute;
    left: 50%;
    top: 45%;
-   transform: translate(-50%, -50%);
+   transform: translate(calc(-50% + var(--hero-cloud-x)), calc(-50% + var(--hero-cloud-y) + var(--hero-cloud-bob-y))) rotate(calc(var(--hero-cloud-tilt) + var(--hero-cloud-bob-tilt)));
    transform-origin: center center;
-   transition: transform 0.3s ease-out;
+   transition: --hero-cloud-x 0.35s ease-out, --hero-cloud-y 0.35s ease-out, --hero-cloud-tilt 0.35s ease-out;
+   animation: hero-cloud-bob 6s ease-in-out infinite;
    z-index: 1;
+}
+
+@keyframes hero-cloud-bob {
+   0%, 100% {
+      --hero-cloud-bob-y: 0px;
+      --hero-cloud-bob-tilt: -2deg;
+   }
+
+   50% {
+      --hero-cloud-bob-y: -8px;
+      --hero-cloud-bob-tilt: 2deg;
+   }
 }
 
 .home-header .personal-image .hero-image-desktop {
@@ -808,14 +858,14 @@ main.touch .main-wrap {
 @media screen and (min-width: 1025px) {
    .home-header .personal-image img {
       width: auto;
-      height: 25%;
+      height: 45.5%;
       object-fit: contain;
       position: absolute;
       left: 50%;
       top: 45%;
-      transform: translate(-50%, -50%);
+      transform: translate(calc(-50% + var(--hero-cloud-x)), calc(-50% + var(--hero-cloud-y) + var(--hero-cloud-bob-y))) rotate(calc(var(--hero-cloud-tilt) + var(--hero-cloud-bob-tilt)));
       transform-origin: center center;
-      transition: transform 0.3s ease-out;
+      transition: --hero-cloud-x 0.35s ease-out, --hero-cloud-y 0.35s ease-out, --hero-cloud-tilt 0.35s ease-out;
    }
 
    .home-header .personal-image {
@@ -825,7 +875,7 @@ main.touch .main-wrap {
 
 .home-header .big-name {
    position: absolute;
-   bottom: 15vh;
+   bottom: 8vh;
    left: 0;
    width: 100%;
    padding-bottom: calc(var(--gap-padding) * 1.25);
@@ -854,7 +904,7 @@ main.touch .main-wrap {
    color: #fff;
    line-height: 1;
    font-size: 17.5vw;
-   font-size: max(9em, 15vw);
+   font-size: max(6.5em, 10.5vw);
    white-space: nowrap;
    pointer-events: none;
    margin: 0;
@@ -874,27 +924,96 @@ main.touch .main-wrap {
    width: auto;
 }
 
-.home-header .row .flex-col .header-above-h4 {
-   top: -12.5vh;
-   position: absolute;
-}
-
-.home-header .row .flex-col .header-above-h4 svg {
-   width: clamp(1.1em, 1.3vw, 1.25em);
-}
-
-.home-header .row .flex-col .header-above-h4 svg g {
-   stroke: #fff;
-}
-
 .home-header .row .flex-col h4 {
+   display: flex;
+   align-items: center;
+   gap: .3em;
+   white-space: nowrap;
    line-height: 1.4;
    margin-bottom: 0;
    color: #fff;
 }
 
+.home-header .hero-title-group {
+   position: relative;
+   top: 7vh;
+   width: fit-content;
+}
+
+.home-header .row .flex-col h4#hero-title {
+   position: relative;
+   width: fit-content;
+   font-size: 2em;
+   padding-bottom: .15em;
+}
+
+.home-header .row .flex-col h4#hero-title::after {
+   content: "";
+   position: absolute;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   height: 2px;
+   background: currentColor;
+   transform: scaleX(0);
+   transform-origin: left center;
+   transition: transform .35s cubic-bezier(.7, 0, .2, 1);
+}
+
+.home-header .row .flex-col h4#hero-title:hover::after {
+   transform: scaleX(1);
+}
+
+.home-header .hero-title-group:hover #hero-title::after {
+   transform: scaleX(1);
+}
+
+.home-header .hero-tech-stack {
+   display: grid;
+   grid-template-columns: repeat(2, minmax(0, 1fr));
+   gap: .2em 1.1em;
+   width: 100%;
+   margin-top: .7em;
+   color: #fff;
+   font-size: clamp(.55rem, .7vw, .7rem);
+   line-height: 1.2;
+   opacity: 0;
+   visibility: hidden;
+   pointer-events: none;
+   transform: translateY(-.4em);
+   transition: opacity .3s ease, visibility .3s ease, transform .3s ease;
+}
+
+.home-header .hero-tech-stack ul {
+   display: grid;
+   gap: .2em;
+   margin: 0;
+   padding: 0;
+   list-style: none;
+}
+
+.home-header .hero-title-group:hover .hero-tech-stack,
+.home-header .hero-title-group:focus-within .hero-tech-stack {
+   opacity: 1;
+   visibility: visible;
+   pointer-events: auto;
+   transform: translateY(0);
+}
+
+.home-header .hero-title-icon {
+   display: inline-block;
+   width: 1.8em;
+   height: auto;
+   vertical-align: middle;
+}
+
 .home-header .row .flex-col h4 span {
    display: block;
+}
+
+.home-header .hero-title-icon + span {
+   display: inline-block;
+   vertical-align: middle;
 }
 
 .home-header .get-height {
@@ -939,7 +1058,7 @@ main.touch .main-wrap {
    position: absolute;
    height: 30vh;
    width: 50vw;
-   top: 115vh;
+   top: 100vh;
    right: 0;
    background: var(--color-white);
    display: none;
@@ -979,9 +1098,12 @@ main.touch .main-wrap {
 @media screen and (max-width: 720px) {
 
    .home-header {
-      min-height: 110vh;
-      min-height: calc(var(--vh, 1vh) * 110);
-      max-height: 110vh;
+      height: 100vh;
+      height: calc(var(--vh, 1vh) * 100);
+      min-height: 100vh;
+      min-height: calc(var(--vh, 1vh) * 100);
+      max-height: 100vh;
+      max-height: calc(var(--vh, 1vh) * 100);
       align-items: flex-end;
       padding-top: calc(var(--gap-padding) * 2);
       padding-bottom: calc(var(--gap-padding) * 2);
@@ -992,9 +1114,13 @@ main.touch .main-wrap {
       height: 105%;
    }
 
+   .home-header .personal-image img {
+      height: 35%;
+   }
+
    .home-header .big-name {
       position: absolute;
-      bottom: calc(var(--vh, 1vh) * 33);
+      bottom: calc(var(--vh, 1vh) * 30);
       left: 0;
       width: 100%;
       padding-bottom: calc(var(--gap-padding) * 1.25);
@@ -1004,13 +1130,16 @@ main.touch .main-wrap {
       justify-content: flex-start;
    }
 
-   .home-header .container {
-      padding-bottom: calc(var(--vh, 1vh) * 9);
+   .home-header .hero-title-group {
+      top: 11vh;
    }
 
-   .home-header .row .flex-col .header-above-h4 {
-      top: calc(var(--vh, 1vh) * -8);
-      position: absolute;
+   .home-header .hero-tech-stack {
+      display: none;
+   }
+
+   .home-header .container {
+      padding-bottom: calc(var(--vh, 1vh) * 9);
    }
 
    .home-header .hanger {
@@ -1035,6 +1164,15 @@ main.touch .main-wrap {
 }
 
 @media (prefers-reduced-motion: reduce) {
+   .home-header .personal-image img {
+      animation: none;
+      transition: none;
+   }
+
+   .home-header .hero-tech-stack {
+      transition: none;
+   }
+
    .home-header .hanger-chat-image {
       animation: none;
    }
@@ -4085,63 +4223,6 @@ main.touch .case-intro-image .btn-wrap {
 
    .modal-title {
       font-size: 1.5em;
-   }
-}
-
-/* ------------------------- Ask Agent -------------------------------------------------- */
-
-.ask-agent-wrap {
-   display: flex;
-   align-items: center;
-   gap: calc(var(--gap-padding) / 2);
-   margin-top: calc(var(--section-padding) / 2);
-}
-
-.ask-agent-button {
-   margin: 0;
-   display: inline-flex;
-   flex: 0 0 auto;
-}
-
-.ask-agent-button .btn-click {
-   min-width: 9em;
-   height: 3.25em;
-   padding: 0 1.5em;
-   background: var(--color-dark);
-}
-
-.ask-agent-button .btn-text-inner {
-   color: var(--color-white);
-}
-
-.ask-agent-button .btn-fill {
-   background: var(--color-blue);
-}
-
-.ask-agent-note {
-   max-width: 18em;
-   margin: 0;
-   color: rgba(28, 29, 32, .58);
-   font-size: .75em;
-}
-
-.ask-agent-button .btn-click:focus-visible {
-   outline: 2px solid var(--color-blue);
-   outline-offset: 4px;
-}
-
-@media screen and (max-width: 720px) {
-   .ask-agent-wrap {
-      align-items: flex-start;
-      flex-direction: column;
-      gap: 1em;
-   }
-}
-
-@media (prefers-reduced-motion: reduce) {
-   .ask-agent-button .btn-click,
-   .ask-agent-button .btn-fill {
-      transition: none;
    }
 }
 

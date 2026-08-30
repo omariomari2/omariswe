@@ -524,7 +524,7 @@ function initScript() {
   initProjectModal();
   initGithubCard();
   initAskAgent();
-  initArrowPointing();
+  initHeroCloudInteraction();
 }
 
 /**
@@ -1691,103 +1691,54 @@ function initGithubCard() {
 }
 
 /**
- * Ask Agent ChatGPT Handoff
+ * Ask Agent ChatGPT handoff
  */
 function initAskAgent() {
-    const buttons = document.querySelectorAll('[data-agent-handoff], #ask-agent');
-    if (!buttons.length) return;
+    const handoffs = document.querySelectorAll('[data-agent-handoff]');
+    if (!handoffs.length) return;
 
     const manifestLink = document.querySelector('link[rel="alternate"][type="application/json"]');
     const manifestUrl = manifestLink
         ? new URL(manifestLink.getAttribute('href'), window.location.href).href
         : new URL('agent-manifest.json', window.location.href).href;
 
-    buttons.forEach((button) => {
-        button.href = `https://chatgpt.com/?q=${encodeURIComponent(manifestUrl)}`;
-        button.dataset.manifestUrl = manifestUrl;
+    handoffs.forEach((handoff) => {
+        handoff.href = `https://chatgpt.com/?q=${encodeURIComponent(manifestUrl)}`;
+        handoff.dataset.manifestUrl = manifestUrl;
     });
 }
 
-/**
- * Arrow Pointing to Text
- * Positions and rotates the arrow image to point at the "Software Engineer & Cybersecurity" text
- */
-function initArrowPointing() {
-    const arrow = document.getElementById('hero-arrow');
-    const targetText = document.getElementById('hero-title');
-    
-    if (!arrow || !targetText) {
-        return; // Elements not found, exit early
+function initHeroCloudInteraction() {
+    const cloud = document.querySelector('.home-header .personal-image img#hero-arrow');
+    const header = cloud?.closest('.home-header');
+
+    if (!cloud || !header || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
     }
-    
-    function updateArrowPosition() {
-        // Get bounding rectangles for both elements
-        const arrowRect = arrow.getBoundingClientRect();
-        const textRect = targetText.getBoundingClientRect();
-        
-        // Calculate center points
-        const arrowCenterX = arrowRect.left + arrowRect.width / 2;
-        const arrowCenterY = arrowRect.top + arrowRect.height / 2;
-        const textCenterX = textRect.left + textRect.width / 2;
-        const textCenterY = textRect.top + textRect.height / 2;
-        
-        // Calculate angle in radians, then convert to degrees
-        // Math.atan2 returns angle from positive x-axis, so we need to adjust
-        const angleRad = Math.atan2(textCenterY - arrowCenterY, textCenterX - arrowCenterX);
-        const angleDeg = angleRad * (180 / Math.PI);
-        
-        // Apply rotation to arrow while preserving the translate
-        // Arrow's natural orientation may need adjustment - typically subtract 90 degrees
-        // if arrow points up by default, or adjust based on actual arrow orientation
-        // Note: The order matters - translate first, then rotate
-        arrow.style.transform = `translate(-50%, -50%) rotate(${angleDeg}deg)`;
-    }
-    
-    // Debounce function for performance
-    function debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
-    
-    // Create debounced version for resize
-    const debouncedUpdate = debounce(updateArrowPosition, 100);
-    
-    // Initial positioning - wait a bit for layout to settle
-    setTimeout(updateArrowPosition, 100);
-    
-    // Update on window resize
-    window.addEventListener('resize', debouncedUpdate);
-    
-    // Update after images load (in case layout shifts)
-    window.addEventListener('load', () => {
-        setTimeout(updateArrowPosition, 100);
+
+    const maxX = 20;
+    const maxY = 14;
+    const setDisplacement = (x, y, tilt) => {
+        cloud.style.setProperty('--hero-cloud-x', `${x}px`);
+        cloud.style.setProperty('--hero-cloud-y', `${y}px`);
+        cloud.style.setProperty('--hero-cloud-tilt', `${tilt}deg`);
+    };
+
+    header.addEventListener('pointermove', (event) => {
+        if (event.pointerType === 'touch') return;
+
+        const bounds = header.getBoundingClientRect();
+        const normalizedX = ((event.clientX - bounds.left) / bounds.width - 0.5) * 2;
+        const normalizedY = ((event.clientY - bounds.top) / bounds.height - 0.5) * 2;
+
+        setDisplacement(
+            Math.max(-maxX, Math.min(maxX, normalizedX * maxX)),
+            Math.max(-maxY, Math.min(maxY, normalizedY * maxY)),
+            Math.max(-5, Math.min(5, normalizedX * 5))
+        );
     });
-    
-    // Integrate with Locomotive Scroll if available
-    if (typeof scroll !== 'undefined' && scroll) {
-        scroll.on('scroll', () => {
-            updateArrowPosition();
-        });
-    } else {
-        // Fallback to regular scroll events if Locomotive Scroll not available
-        // Use requestAnimationFrame for smooth updates during scroll
-        let ticking = false;
-        function requestTick() {
-            if (!ticking) {
-                requestAnimationFrame(() => {
-                    updateArrowPosition();
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        }
-        window.addEventListener('scroll', requestTick, { passive: true });
-    }
+
+    header.addEventListener('pointerleave', () => {
+        setDisplacement(0, 0, 0);
+    });
 }

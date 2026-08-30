@@ -25,7 +25,7 @@
   <link href="assets/css/locomotive-scroll.css" rel="stylesheet">
   <link href="assets/css/styleguide.css" rel="stylesheet">
   <link href="assets/css/components.css" rel="stylesheet">
-  <link href="assets/css/style-new.css?v=hanger-click-target-v2" rel="stylesheet">
+  <link href="assets/css/style-new.css?v=hero-name-lower" rel="stylesheet">
   <link rel="alternate" type="application/json" href="https://omari.is-a.dev/agent-manifest.json"
     title="Machine-readable portfolio profile">
 
@@ -128,8 +128,8 @@
 
     <div class="main-wrap" data-scroll-container>
       <header id="top" class="section home-header theme-dark" data-scroll-section>
-        <div class="overlay personal-image no-select once-in" data-scroll data-scroll-speed="-3" data-scroll-position="top">
-          <img id="hero-arrow" src="assets/arrow.png" alt="" />
+        <div class="overlay personal-image no-select once-in">
+          <img id="hero-arrow" src="assets/cl.png" alt="" />
         </div>
 
         <div class="overlay get-height once-in once-in-secondary">
@@ -198,21 +198,23 @@
         <div class="container once-in once-in-secondary">
           <div class="row">
             <div class="flex-col">
-              <div class="header-above-h4" data-scroll data-scroll-speed="1">
-                <div class="arrow big">
-                  <svg width="14px" height="14px" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
-                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                      <g transform="translate(-1019.000000, -279.000000)" stroke="#FFFFFF" stroke-width="1.5">
-                        <g transform="translate(1026.000000, 286.000000) rotate(90.000000) translate(-1026.000000, -286.000000) translate(1020.000000, 280.000000)">
-                          <polyline points="2.76923077 0 12 0 12 9.23076923"></polyline>
-                          <line x1="12" y1="0" x2="0" y2="12"></line>
-                        </g>
-                      </g>
-                    </g>
-                  </svg>
+              <div class="hero-title-group">
+                <h4 id="hero-title"><img class="hero-title-icon" src="assets/cloud.svg" alt="Cloud"><span>Engineer</span></h4>
+                <div class="hero-tech-stack" aria-label="Technologies I use">
+                  <ul>
+                    <li>GCP</li>
+                    <li>AWS</li>
+                    <li>Azure</li>
+                    <li>DigitalOcean</li>
+                  </ul>
+                  <ul>
+                    <li>Python</li>
+                    <li>Go</li>
+                    <li>Terraform</li>
+                    <li>TypeScript</li>
+                  </ul>
                 </div>
               </div>
-              <h4 id="hero-title"><span>Software Engineer</span></h4>
             </div>
           </div>
         </div>
@@ -238,16 +240,6 @@
                 <p>Backend systems, cloud infrastructure, and security automation.</p>
               </div>
             </div>
-          </div>
-          <div class="ask-agent-wrap">
-            <div class="btn btn-normal ask-agent-button">
-              <a id="ask-agent" class="btn-click magnetic" data-agent-handoff href="https://chatgpt.com/"
-                target="_blank" rel="noopener noreferrer">
-                <div class="btn-fill"></div>
-                <span class="btn-text"><span class="btn-text-inner">Ask Agent</span></span>
-              </a>
-            </div>
-            <p class="ask-agent-note">Ask ChatGPT for a summary of my background.</p>
           </div>
         </div>
       </section>
@@ -623,7 +615,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@barba/core@2.10.3"></script>
   <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.6.1/dist/lazyload.min.js"></script>
   <script src="assets/js/locomotive-scroll.min.js"></script>
-  <script defer src="assets/js/index-new.js?v=github-activity-green"></script>
+  <script defer src="assets/js/index-new.js?v=hero-cloud-cursor-strong"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       function activateWorkFilter(filter) {
