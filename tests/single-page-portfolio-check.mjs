@@ -77,8 +77,7 @@ assert.match(css, /\.home-header \.row \.flex-col h4 \{[^}]*display: flex;[^}]*a
 assert.match(css, /\.home-header \.row \.flex-col h4#hero-title \{[^}]*font-size: 2em;/, 'Hero title should be scaled up');
 assert.match(css, /\.home-header \.hero-title-group \{[^}]*top: 41\.9vh;/, 'Hero title should align with the resized name lockup on larger screens');
 assert.match(css, /@media screen and \(max-width: 720px\) \{[\s\S]*?\.home-header \.personal-image img \{[\s\S]*?height: 35%;[\s\S]*?\.home-header \.hero-title-group \{[\s\S]*?top: 11vh;/, 'Hero title and agent icon should align on small screens');
-assert.match(css, /\.home-header \.row \.flex-col h4#hero-title::after \{[^}]*transform: scaleX\(0\);[^}]*transition:/, 'Hero title underline should animate from hidden');
-assert.match(css, /\.home-header \.row \.flex-col h4#hero-title:hover::after[^}]*transform: scaleX\(1\);/, 'Hero title underline should expand on hover');
+assert.match(css, /\.home-header \.row \.flex-col h4#hero-title::after \{[^}]*transform: scaleX\(1\);/, 'Hero title underline should be permanently visible');
 assert.match(css, /\.hero-tech-stack \{[^}]*display: grid;[^}]*grid-template-columns: repeat\(2, minmax\(0, 1fr\)\);/, 'Hero technologies should use two columns');
 assert.match(css, /\.home-header \.hero-tech-stack \{[^}]*opacity: 1;[^}]*visibility: visible;[^}]*pointer-events: auto;[^}]*transform: translateY\(0\);/, 'Hero technologies should remain visible');
 assert.match(css, /\.hero-tech-stack \{[^}]*color: #fff;/, 'Hero technologies should use white text');
