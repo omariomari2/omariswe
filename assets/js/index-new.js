@@ -1583,7 +1583,7 @@ function initGithubCard() {
             count: 0,
             level: 0
         }));
-        const colors = ['#262626', '#404040', '#737373', '#a3a3a3', '#d4d4d4'];
+        const colors = ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353'];
 
         const formatDate = (date) => {
             if (!date) return '';
@@ -1681,7 +1681,7 @@ function initGithubCard() {
 
             renderContributions(contributions);
             const contributionTotal = allContributions.reduce((sum, day) => sum + (day.count || 0), 0);
-            total.textContent = `${contributionTotal.toLocaleString()} contributions in ${year}`;
+            total.textContent = `${contributionTotal.toLocaleString()} contributions`;
             updateStatus('');
         }).catch(() => {
             total.textContent = 'GitHub activity unavailable';
