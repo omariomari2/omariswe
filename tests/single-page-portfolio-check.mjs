@@ -2,6 +2,11 @@ import fs from 'node:fs';
 import assert from 'node:assert/strict';
 
 const html = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+const js = fs.readFileSync(new URL('../assets/js/index-new.js', import.meta.url), 'utf8');
+const css = fs.readFileSync(new URL('../assets/css/style-new.css', import.meta.url), 'utf8');
+const manifestText = fs.readFileSync(new URL('../agent-manifest.json', import.meta.url), 'utf8');
+const manifest = JSON.parse(manifestText);
+const openAiSvg = fs.readFileSync(new URL('../assets/openai.svg', import.meta.url), 'utf8');
 const normalized = html.replaceAll('&amp;', '&');
 
 for (const id of ['top', 'about', 'experience', 'projects', 'contact']) {
@@ -24,6 +29,35 @@ assert.match(html, /class=["'][^"']*development-btn[^"']*["']/, 'Projects select
 assert.match(html, /class=["']section work-tiles grid-fade grid-columns-part["']/, 'mobile tile rendering missing');
 assert.match(html, /id=["']projectModal["']/, 'experience detail modal missing');
 assert.match(html, /data-description=["'][^"']+["']/, 'experience modal descriptions missing');
+assert.match(html, /id=["']github-activity["']/, 'GitHub activity section missing');
+assert.match(html, /data-github-card/, 'GitHub activity card hook missing');
+assert.match(html, /data-github-grid/, 'GitHub contribution grid missing');
+assert.match(js, /function initGithubCard/, 'GitHub card initializer missing');
+assert.match(js, /github-contributions-api\.jogruber\.de/, 'GitHub contribution endpoint missing');
+assert.match(html, /id=["']ask-agent["']/, 'Ask Agent control missing');
+assert.match(html, /id=["']ask-agent-hanger["']/, 'Header Chat Agent control missing');
+assert.match(html, /Ask your agent about me/, 'Header Chat Agent label missing');
+assert.match(html, /src=["']assets\/openai\.svg(?:\?[^"']*)?["']/, 'Header OpenAI image missing');
+assert.match(openAiSvg, /fill=["']#fff["']/i, 'Header OpenAI image must be white');
+assert.match(css, /\.home-header \.hanger-chat-image \{[\s\S]*?width: 2\.5em;[\s\S]*?height: 2\.5em;/, 'Header OpenAI image is not scaled down');
+assert.match(css, /\.home-header \.hanger-chat-image \{[^}]*top: 50%;[^}]*transform: translateY\(-50%\);/, 'Header OpenAI image is not vertically centered');
+assert.match(css, /\.home-header \.hanger-chat-image \{[^}]*right: 1\.75em;/, 'Header OpenAI image is not horizontally aligned');
+assert.match(css, /\.home-header \.hanger-chat-image \{[^}]*animation: hanger-chat-spin 8s linear infinite;/, 'Header OpenAI image is not spinning');
+assert.match(css, /@keyframes hanger-chat-spin/, 'Header OpenAI spin animation is missing');
+assert.match(css, /prefers-reduced-motion: reduce[\s\S]*?\.home-header \.hanger-chat-image \{[^}]*animation: none;/, 'Header OpenAI spin must respect reduced motion');
+assert.match(html, /data-agent-handoff/, 'Shared agent handoff hook missing');
+assert.match(html, /href=["']https:\/\/chatgpt\.com\/["']/, 'Ask Agent fallback URL missing');
+assert.match(html, /href=["']https:\/\/omari\.is-a\.dev\/agent-manifest\.json["']/, 'Public portfolio manifest link missing');
+assert.match(js, /function initAskAgent/, 'Ask Agent initializer missing');
+assert.match(js, /querySelectorAll\('\[data-agent-handoff\], #ask-agent'\)/, 'Agent handoff links are not initialized together');
+assert.match(js, /chatgpt\.com\/\?q=/, 'ChatGPT prompt URL construction missing');
+assert.match(js, /encodeURIComponent\(manifestUrl\)/, 'Ask Agent must send only the manifest URL');
+assert.equal(typeof manifest.agentPrompt, 'string', 'manifest agent prompt missing');
+assert.match(manifest.agentPrompt, /concise professional summary/i, 'manifest agent prompt changed unexpectedly');
+assert.equal(manifest.name, 'Bright Owusu', 'manifest name changed unexpectedly');
+assert.equal(manifest.experience.length, 4, 'manifest experience count changed unexpectedly');
+assert.equal(manifest.projects.length, 3, 'manifest project count changed unexpectedly');
+assert.doesNotMatch(manifestText, /318-265-8445|owusuomaribright@gmail\.com/i, 'private contact data leaked into manifest');
 
 for (const company of [
   'Palo Alto Networks',
@@ -35,11 +69,8 @@ for (const company of [
   assert.match(normalized, new RegExp(company.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')), `missing experience: ${company}`);
 }
 
-for (const project of ['Uncluster', 'WVS 1.02', 'Immigration Assistant']) {
+for (const project of ['Uncluster', 'WVS 1.02', 'Immigration Assistant', 'Go-Shop', 'Enterprise ERP']) {
   assert.match(html, new RegExp(project.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')), `missing project: ${project}`);
-}
-for (const removed of ['LintKit', 'Go-Shop']) {
-  assert.doesNotMatch(html, new RegExp(removed, 'i'), `${removed} must be removed`);
 }
 
 assert.match(html, /Backend systems, cloud infrastructure, and security automation\./, 'about copy changed unexpectedly');

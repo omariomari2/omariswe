@@ -25,7 +25,9 @@
   <link href="assets/css/locomotive-scroll.css" rel="stylesheet">
   <link href="assets/css/styleguide.css" rel="stylesheet">
   <link href="assets/css/components.css" rel="stylesheet">
-  <link href="assets/css/style-new.css" rel="stylesheet">
+  <link href="assets/css/style-new.css?v=chat-agent-spin" rel="stylesheet">
+  <link rel="alternate" type="application/json" href="https://omari.is-a.dev/agent-manifest.json"
+    title="Machine-readable portfolio profile">
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGWQQRQ15Y"></script>
   <script>
@@ -131,8 +133,9 @@
         </div>
 
         <div class="overlay get-height once-in once-in-secondary">
-          <div class="hanger">
-            <p><span>Louisiana, USA</span></p>
+          <a class="hanger" id="ask-agent-hanger" data-agent-handoff href="https://chatgpt.com/"
+            target="_blank" rel="noopener noreferrer" aria-label="Ask your agent about me">
+            <p><span>Ask your agent about me</span></p>
             <svg width="300px" height="121px" viewBox="0 0 300 121" version="1.1" xmlns="http://www.w3.org/2000/svg">
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                 <g transform="translate(0.000000, -366.000000)" fill="#fff">
@@ -144,19 +147,8 @@
                 </g>
               </g>
             </svg>
-            <div class="digital-ball">
-              <div class="overlay"></div>
-              <div class="globe">
-                <div class="globe-wrap">
-                  <div class="circle"></div>
-                  <div class="circle"></div>
-                  <div class="circle"></div>
-                  <div class="circle-hor"></div>
-                  <div class="circle-hor-middle"></div>
-                </div>
-              </div>
-            </div>
-          </div>
+            <img class="hanger-chat-image" src="assets/openai.svg?v=white" alt="">
+          </a>
         </div>
 
         <div class="nav-bar">
@@ -247,13 +239,23 @@
               </div>
             </div>
           </div>
+          <div class="ask-agent-wrap">
+            <div class="btn btn-normal ask-agent-button">
+              <a id="ask-agent" class="btn-click magnetic" data-agent-handoff href="https://chatgpt.com/"
+                target="_blank" rel="noopener noreferrer">
+                <div class="btn-fill"></div>
+                <span class="btn-text"><span class="btn-text-inner">Ask Agent</span></span>
+              </a>
+            </div>
+            <p class="ask-agent-note">Ask ChatGPT for a summary of my background.</p>
+          </div>
         </div>
       </section>
 
       <section id="experience" class="section work-filters" data-scroll-section>
         <div class="container"><div class="filter-row"><div class="toggle-row">
           <div class="btn btn-normal design-btn active"><div class="btn-click magnetic" data-strength="25" data-strength-text="15"><div class="btn-fill"></div><span class="btn-text"><span class="btn-text-inner change">Experience<div class="count-nr">5</div></span></span></div></div>
-          <div class="btn btn-normal development-btn" id="projects"><div class="btn-click magnetic" data-strength="25" data-strength-text="15"><div class="btn-fill"></div><span class="btn-text"><span class="btn-text-inner change">Projects<div class="count-nr">3</div></span></span></div></div>
+          <div class="btn btn-normal development-btn" id="projects"><div class="btn-click magnetic" data-strength="25" data-strength-text="15"><div class="btn-fill"></div><span class="btn-text"><span class="btn-text-inner change">Projects<div class="count-nr">5</div></span></span></div></div>
         </div></div></div>
       </section>
       <section class="section-wrap section-wrap-work once-in" data-scroll-section>
@@ -325,6 +327,22 @@
                   <div class="flex-col"><h4><span>Immigration Assistant</span></h4></div>
                   <div class="flex-col animate"><p>RAG Assistant</p></div>
                   <div class="flex-col animate"><p>Python, LangChain, TensorFlow, Gemini</p></div>
+                </a>
+              </li>
+              <li class="development">
+                <div class="stripe animate"></div>
+                <a href="https://goshopghana.com/" class="row" target="_blank" rel="noopener noreferrer">
+                  <div class="flex-col"><h4><span>Go-Shop™</span></h4></div>
+                  <div class="flex-col animate"><p>E-Commerce Backend</p></div>
+                  <div class="flex-col animate"><p>Java, Spring Boot, MongoDB</p></div>
+                </a>
+              </li>
+              <li class="development">
+                <div class="stripe animate"></div>
+                <a href="https://omariomari2.github.io/erp_adminbackup/" class="row" target="_blank" rel="noopener noreferrer">
+                  <div class="flex-col"><h4><span>Enterprise ERP</span></h4></div>
+                  <div class="flex-col animate"><p>Retail &amp; Wholesale ERP</p></div>
+                  <div class="flex-col animate"><p>Python, Flask, PostgreSQL, JWT</p></div>
                 </a>
               </li>
             <div class="stripe last animate"></div>
@@ -411,6 +429,26 @@
                 </a>
               </div>
             </li>
+            <li class="development">
+              <div class="single-tile-wrap">
+                <a href="https://goshopghana.com/" class="row" target="_blank" rel="noopener noreferrer">
+                  <div class="flex-col"><div class="tile-image"><div class="overlay overlay-color" style="background-color: #7C2D12;"></div></div></div>
+                  <div class="flex-col"><h4><span>Go-Shop™</span></h4><div class="stripe"></div></div>
+                  <div class="flex-col"><p>E-Commerce Backend</p></div>
+                  <div class="flex-col"><p>Java, Spring Boot, MongoDB</p></div>
+                </a>
+              </div>
+            </li>
+            <li class="development">
+              <div class="single-tile-wrap">
+                <a href="https://omariomari2.github.io/erp_adminbackup/" class="row" target="_blank" rel="noopener noreferrer">
+                  <div class="flex-col"><div class="tile-image"><div class="overlay overlay-color" style="background-color: #312E81;"></div></div></div>
+                  <div class="flex-col"><h4><span>Enterprise ERP</span></h4><div class="stripe"></div></div>
+                  <div class="flex-col"><p>Retail &amp; Wholesale ERP</p></div>
+                  <div class="flex-col"><p>Python, Flask, PostgreSQL, JWT</p></div>
+                </a>
+              </div>
+            </li>
         </ul></div></section>
       </section>
 
@@ -424,6 +462,45 @@
                   <span class="btn-text-inner change">More work</span>
                 </span>
               </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="github-activity" class="section github-card-section" data-scroll-section>
+        <div class="container">
+          <div class="github-card-layout">
+            <div class="github-card-intro">
+              <h5>GitHub activity</h5>
+              <h2>Follow my work <span>in the open.</span></h2>
+            </div>
+            <div class="github-card-wrapper" data-github-card data-username="omariomari2" data-year="2026">
+              <a class="github-card-trigger" href="https://github.com/omariomari2" target="_blank"
+                rel="noopener noreferrer" aria-describedby="github-card-popover">
+                <span>Follow me on</span>
+                <strong>GitHub</strong>
+              </a>
+              <div class="github-card-popover" id="github-card-popover" role="region"
+                aria-label="GitHub contribution activity" aria-hidden="true">
+                <div class="github-card-profile">
+                  <img class="github-card-avatar" data-github-avatar src="https://github.com/omariomari2.png"
+                    alt="Bright Omari Owusu's GitHub avatar">
+                  <div class="github-card-profile-copy">
+                    <strong data-github-name>Bright Omari Owusu</strong>
+                    <span>@omariomari2</span>
+                  </div>
+                </div>
+                <div class="github-card-contributions" data-github-grid aria-label="GitHub contribution calendar"></div>
+                <div class="github-card-footer">
+                  <span data-github-total>Loading contributions...</span>
+                  <span class="github-card-legend" aria-hidden="true">
+                    <span>Less</span>
+                    <i></i><i></i><i></i><i></i><i></i>
+                    <span>More</span>
+                  </span>
+                </div>
+                <p class="github-card-status" data-github-status role="status">Loading GitHub activity...</p>
+              </div>
             </div>
           </div>
         </div>
@@ -546,7 +623,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@barba/core@2.10.3"></script>
   <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.6.1/dist/lazyload.min.js"></script>
   <script src="assets/js/locomotive-scroll.min.js"></script>
-  <script defer src="assets/js/index-new.js"></script>
+  <script defer src="assets/js/index-new.js?v=chat-agent-hanger"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       function activateWorkFilter(filter) {

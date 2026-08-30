@@ -522,6 +522,8 @@ function initScript() {
   initPlayVideoInview();
   initScrolltriggerAnimations();
   initProjectModal();
+  initGithubCard();
+  initAskAgent();
   initArrowPointing();
 }
 
@@ -1549,6 +1551,160 @@ function initProjectModal() {
         if (e.key === 'Escape' && modal.classList.contains('active')) {
             closeModal();
         }
+    });
+}
+
+/**
+ * GitHub Activity Card
+ */
+function initGithubCard() {
+    const cards = document.querySelectorAll('[data-github-card]');
+    if (!cards.length) return;
+
+    cards.forEach((card) => {
+        if (card.dataset.githubInitialized === 'true') return;
+        card.dataset.githubInitialized = 'true';
+
+        const username = card.dataset.username || 'omariomari2';
+        const year = card.dataset.year || new Date().getFullYear();
+        const trigger = card.querySelector('.github-card-trigger');
+        const popover = card.querySelector('.github-card-popover');
+        const avatar = card.querySelector('[data-github-avatar]');
+        const name = card.querySelector('[data-github-name]');
+        const grid = card.querySelector('[data-github-grid]');
+        const total = card.querySelector('[data-github-total]');
+        const status = card.querySelector('[data-github-status]');
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        if (!trigger || !popover || !grid || !total || !status) return;
+
+        const fallbackDays = Array.from({ length: 119 }, () => ({
+            date: '',
+            count: 0,
+            level: 0
+        }));
+        const colors = ['#262626', '#404040', '#737373', '#a3a3a3', '#d4d4d4'];
+
+        const formatDate = (date) => {
+            if (!date) return '';
+            return new Date(`${date}T00:00:00`).toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            });
+        };
+
+        const renderContributions = (days) => {
+            const fragment = document.createDocumentFragment();
+            days.forEach((day) => {
+                const contribution = document.createElement('div');
+                const label = day.date
+                    ? `${day.count} contributions on ${formatDate(day.date)}`
+                    : 'No contributions recorded';
+
+                contribution.className = 'github-card-day';
+                contribution.style.backgroundColor = colors[Math.min(Math.max(day.level || 0, 0), 4)];
+                contribution.title = label;
+                contribution.setAttribute('aria-label', label);
+                fragment.appendChild(contribution);
+            });
+            grid.replaceChildren(fragment);
+        };
+
+        const updateStatus = (message) => {
+            status.textContent = message;
+        };
+
+        const updatePopoverState = (isVisible) => {
+            popover.classList.toggle('is-visible', isVisible);
+            popover.setAttribute('aria-hidden', String(!isVisible));
+        };
+
+        const resetTilt = () => {
+            popover.style.setProperty('--github-card-rotate-x', '0deg');
+            popover.style.setProperty('--github-card-rotate-y', '0deg');
+        };
+
+        const updateTilt = (event) => {
+            if (reducedMotion.matches) return;
+
+            const bounds = popover.getBoundingClientRect();
+            const x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
+            const y = ((event.clientY - bounds.top) / bounds.height) * 2 - 1;
+            const clamp = (value) => Math.max(-1, Math.min(1, value));
+
+            popover.style.setProperty('--github-card-rotate-x', `${clamp(y) * -4}deg`);
+            popover.style.setProperty('--github-card-rotate-y', `${clamp(x) * 4}deg`);
+        };
+
+        renderContributions(fallbackDays);
+        updateStatus('Loading GitHub activity...');
+
+        trigger.addEventListener('focus', () => updatePopoverState(true));
+        trigger.addEventListener('blur', () => {
+            if (!card.matches(':focus-within')) updatePopoverState(false);
+        });
+        card.addEventListener('mouseenter', () => updatePopoverState(true));
+        card.addEventListener('mouseleave', () => {
+            updatePopoverState(false);
+            resetTilt();
+        });
+        card.addEventListener('mousemove', updateTilt);
+
+        Promise.all([
+            fetch(`https://api.github.com/users/${encodeURIComponent(username)}`, {
+                headers: { Accept: 'application/vnd.github+json' }
+            }).then((response) => {
+                if (!response.ok) throw new Error('GitHub profile request failed');
+                return response.json();
+            }),
+            fetch(`https://github-contributions-api.jogruber.de/v4/${encodeURIComponent(username)}`)
+                .then((response) => {
+                    if (!response.ok) throw new Error('GitHub contributions request failed');
+                    return response.json();
+                })
+        ]).then(([profile, contributionData]) => {
+            if (avatar && profile.avatar_url) {
+                avatar.src = profile.avatar_url;
+            }
+            if (name && (profile.name || profile.login)) {
+                name.textContent = profile.name || profile.login;
+            }
+
+            const allContributions = Array.isArray(contributionData.contributions)
+                ? contributionData.contributions
+                    .filter((day) => day && day.date)
+                : [];
+            const contributions = allContributions.slice(-119);
+
+            if (!contributions.length) throw new Error('No contribution data returned');
+
+            renderContributions(contributions);
+            const contributionTotal = allContributions.reduce((sum, day) => sum + (day.count || 0), 0);
+            total.textContent = `${contributionTotal.toLocaleString()} contributions in ${year}`;
+            updateStatus('');
+        }).catch(() => {
+            total.textContent = 'GitHub activity unavailable';
+            updateStatus('Contribution data is temporarily unavailable.');
+        });
+    });
+}
+
+/**
+ * Ask Agent ChatGPT Handoff
+ */
+function initAskAgent() {
+    const buttons = document.querySelectorAll('[data-agent-handoff], #ask-agent');
+    if (!buttons.length) return;
+
+    const manifestLink = document.querySelector('link[rel="alternate"][type="application/json"]');
+    const manifestUrl = manifestLink
+        ? new URL(manifestLink.getAttribute('href'), window.location.href).href
+        : new URL('agent-manifest.json', window.location.href).href;
+
+    buttons.forEach((button) => {
+        button.href = `https://chatgpt.com/?q=${encodeURIComponent(manifestUrl)}`;
+        button.dataset.manifestUrl = manifestUrl;
     });
 }
 
