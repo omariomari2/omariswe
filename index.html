@@ -25,7 +25,7 @@
   <link href="assets/css/locomotive-scroll.css" rel="stylesheet">
   <link href="assets/css/styleguide.css" rel="stylesheet">
   <link href="assets/css/components.css" rel="stylesheet">
-  <link href="assets/css/style-new.css?v=hero-name-lower" rel="stylesheet">
+  <link href="assets/css/style-new.css?v=hero-title-arrow" rel="stylesheet">
   <link rel="alternate" type="application/json" href="https://omari.is-a.dev/agent-manifest.json"
     title="Machine-readable portfolio profile">
 
@@ -199,8 +199,8 @@
           <div class="row">
             <div class="flex-col">
               <div class="hero-title-group">
-                <h4 id="hero-title"><img class="hero-title-icon" src="assets/cloud.svg" alt="Cloud"><span>Engineer</span></h4>
-                <div class="hero-tech-stack" aria-label="Technologies I use">
+                <h4 id="hero-title" role="button" tabindex="0" aria-expanded="false" aria-controls="hero-tech-stack"><img class="hero-title-icon" src="assets/cloud.svg" alt="Cloud"><span>Engineer</span><img class="hero-title-hint" src="assets/arr.svg" alt="" aria-hidden="true"></h4>
+                <div id="hero-tech-stack" class="hero-tech-stack" aria-label="Technologies I use">
                   <ul>
                     <li>GCP</li>
                     <li>AWS</li>
@@ -233,11 +233,11 @@
         <div class="container medium">
           <div class="row">
             <div class="flex-col">
-              <h4 class="span-lines animate">I build backend, cloud, and security systems focused on reliability, automation, and applied AI.</h4>
+              <h4 class="span-lines animate">I build cloud-native infrastructure, backend platforms, and security systems focused on reliability, automation, and applied AI.</h4>
             </div>
             <div class="flex-col">
               <div class="text-wrap fade-in animate">
-                <p>Backend systems, cloud infrastructure, and security automation.</p>
+                <p>I specialize in building reliable cloud systems with Python, Google Cloud, and Terraform, using Cursor to accelerate thoughtful, production-ready engineering.</p>
               </div>
             </div>
           </div>
@@ -307,8 +307,8 @@
               </li>
               <li class="development">
                 <div class="stripe animate"></div>
-                <a href="https://github.com/omariomari2/wvs-102" class="row" target="_blank" rel="noopener noreferrer">
-                  <div class="flex-col"><h4><span>WVS 1.02</span></h4></div>
+                <a href="https://github.com/omariomari2/WVS-1.01.git" class="row" target="_blank" rel="noopener noreferrer">
+                  <div class="flex-col"><h4><span>WVS 1.01</span></h4></div>
                   <div class="flex-col animate"><p>Distributed Security Agent</p></div>
                   <div class="flex-col animate"><p>TypeScript, Cloudflare Workers, Llama</p></div>
                 </a>
@@ -323,7 +323,7 @@
               </li>
               <li class="development">
                 <div class="stripe animate"></div>
-                <a href="https://goshopghana.com/" class="row" target="_blank" rel="noopener noreferrer">
+                <a href="https://ems-woad-kappa.vercel.app/" class="row" target="_blank" rel="noopener noreferrer">
                   <div class="flex-col"><h4><span>Go-Shop™</span></h4></div>
                   <div class="flex-col animate"><p>E-Commerce Backend</p></div>
                   <div class="flex-col animate"><p>Java, Spring Boot, MongoDB</p></div>
@@ -403,9 +403,9 @@
             </li>
             <li class="development">
               <div class="single-tile-wrap">
-                <a href="https://github.com/omariomari2/wvs-102" class="row" target="_blank" rel="noopener noreferrer">
+                <a href="https://github.com/omariomari2/WVS-1.01.git" class="row" target="_blank" rel="noopener noreferrer">
                   <div class="flex-col"><div class="tile-image"><div class="overlay overlay-color" style="background-color: #334155;"></div></div></div>
-                  <div class="flex-col"><h4><span>WVS 1.02</span></h4><div class="stripe"></div></div>
+                  <div class="flex-col"><h4><span>WVS 1.01</span></h4><div class="stripe"></div></div>
                   <div class="flex-col"><p>Distributed Security Agent</p></div>
                   <div class="flex-col"><p>TypeScript, Cloudflare Workers, Llama</p></div>
                 </a>
@@ -423,7 +423,7 @@
             </li>
             <li class="development">
               <div class="single-tile-wrap">
-                <a href="https://goshopghana.com/" class="row" target="_blank" rel="noopener noreferrer">
+                <a href="https://ems-woad-kappa.vercel.app/" class="row" target="_blank" rel="noopener noreferrer">
                   <div class="flex-col"><div class="tile-image"><div class="overlay overlay-color" style="background-color: #7C2D12;"></div></div></div>
                   <div class="flex-col"><h4><span>Go-Shop™</span></h4><div class="stripe"></div></div>
                   <div class="flex-col"><p>E-Commerce Backend</p></div>
@@ -615,7 +615,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@barba/core@2.10.3"></script>
   <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.6.1/dist/lazyload.min.js"></script>
   <script src="assets/js/locomotive-scroll.min.js"></script>
-  <script defer src="assets/js/index-new.js?v=hero-cloud-cursor-strong"></script>
+  <script defer src="assets/js/index-new.js?v=hero-title-click"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       function activateWorkFilter(filter) {
