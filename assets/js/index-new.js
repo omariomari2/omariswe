@@ -514,7 +514,6 @@ function initScript() {
   initStickyCursorWithDelay();
   initVisualFilter();
   initScrolltriggerNav();
-  initScrollLetters();
   initTricksWords();
   initContactForm();
   initTimeZone();

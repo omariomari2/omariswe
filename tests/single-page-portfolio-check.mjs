@@ -46,7 +46,9 @@ assert.match(html, /id=["']ask-agent-hanger["']/, 'Header Chat Agent control mis
 assert.match(html, /Ask your agent about me/, 'Header Chat Agent label missing');
 assert.match(html, /src=["']assets\/openai\.svg(?:\?[^"']*)?["']/, 'Header OpenAI image missing');
 assert.match(html, /<img[^>]*id=["']hero-arrow["'][^>]*src=["']assets\/cl\.png["']/, 'Hero image should use cl.png');
-assert.match(html, /<span class=["']name-role["']>Cloud\/Software Engineer<\/span>/, 'Scrolling name line should include the cloud software engineer role');
+assert.match(html, /<span class=["']name-primary["']>Bright Omari Owusu<\/span>\s*<span class=["']name-role["']>Cloud\/SWE<\/span>/, 'Static name lockup should include the name and Cloud/SWE role');
+assert.doesNotMatch(html, /class=["']name-h1["'][^>]*data-scroll/, 'Hero name should not use marquee scrolling');
+assert.doesNotMatch(js, /initScrollLetters\(\);/, 'Hero name should not initialize marquee scrolling');
 assert.doesNotMatch(html, /class=["']overlay personal-image[^"']*data-scroll/, 'Hero cloud should not use scroll-driven parallax');
 assert.doesNotMatch(js, /initArrowPointing|updateArrowPosition/, 'Hero cloud should not use scroll-driven rotation');
 assert.match(css, /@media screen and \(min-width: 1025px\) \{[\s\S]*?\.home-header \.personal-image img \{[\s\S]*?height: 45\.5%;/, 'Hero image should be scaled to 1.3x on desktop');
@@ -100,7 +102,10 @@ assert.match(css, /\.home-header \.hanger \{[^}]*pointer-events: auto;/, 'Chat A
 assert.doesNotMatch(css, /\.ask-agent-(?:wrap|button|trigger|providers|provider)/, 'About section Ask Agent styles should be removed');
 assert.match(css, /\.home-header \.big-name h1 \{[\s\S]*?font-size: max\(3em, 5vw\);/, 'Hero name should use the compact size');
 assert.doesNotMatch(css, /font-size: max\((?:4\.5em, 7\.5vw|6\.5em, 10\.5vw|7\.5em, 12vw|8em, 13\.5vw|9em, 15vw)\)/, 'Hero name should not retain an oversized size');
-assert.match(css, /\.home-header \.big-name \.name-role \{[^}]*padding: 0 3vw;/, 'Scrolling name role should have spacing');
+assert.match(css, /\.home-header \.big-name \.name-role \{[^}]*font-size: 1em;[^}]*padding: 0;/, 'Static name role should match the name size');
+assert.match(css, /\.home-header \.big-name \{[^}]*padding-left: calc\(var\(--gap-padding\) \/ 2\);[^}]*padding-right: calc\(var\(--gap-padding\) \/ 2\);/, 'Static name lockup should match navigation spacing');
+assert.match(css, /\.home-header \.big-name \.name-wrap \{[^}]*align-items: flex-start;/, 'Static name lockup should be docked left');
+assert.match(css, /@media screen and \(max-width: 720px\) \{[\s\S]*?\.home-header \.big-name h1 \{[\s\S]*?font-size: max\(2em, 4vw\);/, 'Hero name should be smaller on mobile');
 assert.match(css, /\.home-header \.big-name \{[^}]*bottom: 8vh;/, 'Hero name should sit lower on desktop');
 assert.match(css, /\.home-header \.big-name \{[\s\S]*?bottom: calc\(var\(--vh, 1vh\) \* 30\)/, 'Hero name should sit lower on mobile');
 assert.match(css, /\.loading-container \{[^}]*height: 100vh;/, 'Loader must fill the viewport');

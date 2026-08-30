@@ -880,19 +880,23 @@ main.touch .main-wrap {
    bottom: 8vh;
    left: 0;
    width: 100%;
+   padding-left: calc(var(--gap-padding) / 2);
+   padding-right: calc(var(--gap-padding) / 2);
    padding-bottom: calc(var(--gap-padding) * 1.25);
 }
 
 .home-header .big-name .name-h1 {
    position: relative;
-   display: flex;
+   display: block;
    width: 100%;
 }
 
 .home-header .big-name .name-wrap {
    position: relative;
    display: flex;
-   align-items: center;
+   align-items: flex-start;
+   flex-direction: column;
+   width: 100%;
 }
 
 .home-header .big-name .name-wrap .spacer {
@@ -902,13 +906,16 @@ main.touch .main-wrap {
 .home-header .big-name .name-role {
    display: inline-flex;
    align-items: center;
-   padding: 0 3vw;
+   margin-top: .15em;
+   font-size: 1em;
+   padding: 0;
 }
 
 .home-header .big-name h1 {
    position: relative;
    display: flex;
-   align-items: center;
+   flex-direction: column;
+   align-items: flex-start;
    color: #fff;
    line-height: 1;
    font-size: 17.5vw;
@@ -917,6 +924,7 @@ main.touch .main-wrap {
    pointer-events: none;
    margin: 0;
    padding: 0;
+   text-align: left;
 }
 
 .home-header .container {
@@ -1140,7 +1148,13 @@ main.touch .main-wrap {
       bottom: calc(var(--vh, 1vh) * 30);
       left: 0;
       width: 100%;
+      padding-left: calc(var(--gap-padding) * .33);
+      padding-right: calc(var(--gap-padding) * .5);
       padding-bottom: calc(var(--gap-padding) * 1.25);
+   }
+
+   .home-header .big-name h1 {
+      font-size: max(2em, 4vw);
    }
 
    .home-header .row {
