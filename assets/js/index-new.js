@@ -1723,7 +1723,10 @@ function initHeroTechStack() {
         title.setAttribute('aria-expanded', String(open));
     };
 
+    const isMobile = () => window.matchMedia('(max-width: 720px)').matches;
+
     title.addEventListener('click', () => {
+        if (!isMobile()) return;
         setOpen(!group.classList.contains('is-open'));
     });
 
@@ -1733,6 +1736,7 @@ function initHeroTechStack() {
         }
 
         event.preventDefault();
+        if (!isMobile()) return;
         setOpen(!group.classList.contains('is-open'));
     });
 }
