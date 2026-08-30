@@ -8,6 +8,7 @@ const manifestText = fs.readFileSync(new URL('../agent-manifest.json', import.me
 const manifest = JSON.parse(manifestText);
 const openAiSvg = fs.readFileSync(new URL('../assets/openai.svg', import.meta.url), 'utf8');
 const cloudSvg = fs.readFileSync(new URL('../assets/cloud.svg', import.meta.url), 'utf8');
+const heroHintSvg = fs.readFileSync(new URL('../assets/arr.svg', import.meta.url), 'utf8');
 const normalized = html.replaceAll('&amp;', '&');
 const heroTitleMarkup = html.match(/<h4 id=["']hero-title["'][^>]*>([\s\S]*?)<\/h4>/)?.[1] ?? '';
 
@@ -65,12 +66,13 @@ assert.doesNotMatch(css, /header-above-h4/, 'Hero arrow decoration styles should
 assert.match(html, /<h4 id=["']hero-title["'][^>]*>\s*<img[^>]*class=["'][^"']*hero-title-icon[^"']*["'][^>]*src=["']assets\/cloud\.svg["'][^>]*alt=["']Cloud["']/, 'Hero title should retain the cloud icon');
 assert.doesNotMatch(heroTitleMarkup, /Software Engineer/, 'Hero title should no longer show Software Engineer');
 assert.match(heroTitleMarkup, /Engineer/, 'Hero title should retain Engineer beside the cloud icon');
-assert.doesNotMatch(html, /hero-title-hint|assets\/arr\.svg/, 'Persistent skills should not retain the click hint arrow');
+assert.match(html, /<img[^>]*class=["'][^"']*hero-title-hint[^"']*["'][^>]*src=["']assets\/arr\.svg["']/, 'Hero title hint arrow missing');
 assert.match(html, /class=["']hero-title-group["'][\s\S]*?id=["']hero-tech-stack["'][^>]*class=["'][^"']*hero-tech-stack[^"']*["']/, 'Hero technology stack markup missing');
 for (const technology of ['GCP', 'AWS', 'Azure', 'DigitalOcean', 'Python', 'Go', 'Terraform', 'TypeScript']) {
   assert.match(html, new RegExp(`>${technology}<`), `Hero technology ${technology} missing`);
 }
 assert.match(cloudSvg, /fill=["']#fff["']/i, 'Cloud SVG must be white');
+assert.match(heroHintSvg, /fill:#FFFFFF/i, 'Hero title hint arrow must be white');
 assert.match(css, /\.home-header \.hero-title-icon \{[^}]*width: 1\.8em;/, 'Cloud SVG sizing is missing');
 assert.match(css, /\.home-header \.hero-title-icon \+ span \{[^}]*display: inline-block;/, 'Cloud icon and Engineer label must align inline');
 assert.match(css, /\.home-header \.row \.flex-col h4 \{[^}]*display: flex;[^}]*align-items: center;[^}]*gap: \.3em;[^}]*white-space: nowrap;/, 'Cloud icon and Engineer label must stay on one line with spacing');
@@ -81,6 +83,10 @@ assert.match(css, /\.home-header \.row \.flex-col h4#hero-title::after \{[^}]*tr
 assert.match(css, /\.hero-tech-stack \{[^}]*display: grid;[^}]*grid-template-columns: repeat\(2, minmax\(0, 1fr\)\);/, 'Hero technologies should use two columns');
 assert.match(css, /\.home-header \.hero-tech-stack \{[^}]*opacity: 1;[^}]*visibility: visible;[^}]*pointer-events: auto;[^}]*transform: translateY\(0\);/, 'Hero technologies should remain visible');
 assert.match(css, /\.hero-tech-stack \{[^}]*color: #fff;/, 'Hero technologies should use white text');
+assert.match(css, /\.hero-title-hint \{[^}]*position: absolute;/, 'Hero title hint arrow should be positioned over the title');
+assert.match(css, /\.hero-title-hint \{[^}]*transform: rotate\(-48deg\) scaleX\(-1\);/, 'Hero title hint arrow should point toward Engineer on desktop');
+assert.match(css, /@media screen and \(max-width: 720px\) \{[\s\S]*?\.hero-title-hint \{[\s\S]*?left: calc\(100% \+ \.4em\);[\s\S]*?width: 1\.25em;/, 'Hero title hint arrow should be small and right-aligned on mobile');
+assert.match(css, /@media screen and \(max-width: 720px\) \{[\s\S]*?\.hero-title-hint \{[\s\S]*?transform: translateY\(-50%\) rotate\(-12deg\) scaleX\(-1\);/, 'Hero title hint arrow should point left on mobile');
 assert.match(css, /@media screen and \(max-width: 720px\) \{[\s\S]*?\.hero-tech-stack \{[^}]*display: grid;[^}]*order: -1;/, 'Mobile hero technologies should remain visible above the title');
 assert.match(openAiSvg, /fill=["']#fff["']/i, 'Header OpenAI image must be white');
 assert.match(css, /\.home-header \.hanger-chat-image \{[\s\S]*?width: 2\.5em;[\s\S]*?height: 2\.5em;/, 'Header OpenAI image is not scaled down');
