@@ -830,6 +830,8 @@ main.touch .main-wrap {
    top: 45%;
    transform: translate(calc(-50% + var(--hero-cloud-x)), calc(-50% + var(--hero-cloud-y) + var(--hero-cloud-bob-y))) rotate(calc(var(--hero-cloud-tilt) + var(--hero-cloud-bob-tilt)));
    transform-origin: center center;
+   touch-action: none;
+   cursor: grab;
    transition: --hero-cloud-x 0.35s ease-out, --hero-cloud-y 0.35s ease-out, --hero-cloud-tilt 0.35s ease-out;
    animation: hero-cloud-bob 6s ease-in-out infinite;
    z-index: 1;
@@ -897,6 +899,12 @@ main.touch .main-wrap {
    padding: 0 3vw;
 }
 
+.home-header .big-name .name-role {
+   display: inline-flex;
+   align-items: center;
+   padding: 0 3vw;
+}
+
 .home-header .big-name h1 {
    position: relative;
    display: flex;
@@ -904,7 +912,7 @@ main.touch .main-wrap {
    color: #fff;
    line-height: 1;
    font-size: 17.5vw;
-   font-size: max(6.5em, 10.5vw);
+   font-size: max(3em, 5vw);
    white-space: nowrap;
    pointer-events: none;
    margin: 0;

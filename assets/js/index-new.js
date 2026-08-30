@@ -1755,8 +1755,6 @@ function initHeroCloudInteraction() {
     };
 
     header.addEventListener('pointermove', (event) => {
-        if (event.pointerType === 'touch') return;
-
         const bounds = header.getBoundingClientRect();
         const normalizedX = ((event.clientX - bounds.left) / bounds.width - 0.5) * 2;
         const normalizedY = ((event.clientY - bounds.top) / bounds.height - 0.5) * 2;
@@ -1770,5 +1768,19 @@ function initHeroCloudInteraction() {
 
     header.addEventListener('pointerleave', () => {
         setDisplacement(0, 0, 0);
+    });
+
+    cloud.addEventListener('pointerdown', () => {
+        cloud.style.cursor = 'grabbing';
+    });
+
+    cloud.addEventListener('pointerup', () => {
+        setDisplacement(0, 0, 0);
+        cloud.style.cursor = 'grab';
+    });
+
+    cloud.addEventListener('pointercancel', () => {
+        setDisplacement(0, 0, 0);
+        cloud.style.cursor = 'grab';
     });
 }
