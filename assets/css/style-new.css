@@ -965,16 +965,6 @@ main.touch .main-wrap {
    padding-bottom: .15em;
 }
 
-.home-header .hero-title-hint {
-   position: absolute;
-   top: -3.8em;
-   left: 62%;
-   width: 4.5em;
-   height: auto;
-   pointer-events: none;
-   transform: rotate(-48deg) scaleX(-1);
-}
-
 .home-header .row .flex-col h4#hero-title::after {
    content: "";
    position: absolute;
@@ -1005,10 +995,10 @@ main.touch .main-wrap {
    color: #fff;
    font-size: clamp(.55rem, .7vw, .7rem);
    line-height: 1.2;
-   opacity: 0;
-   visibility: hidden;
-   pointer-events: none;
-   transform: translateY(-.4em);
+   opacity: 1;
+   visibility: visible;
+   pointer-events: auto;
+   transform: translateY(0);
    transition: opacity .3s ease, visibility .3s ease, transform .3s ease;
 }
 
@@ -1018,23 +1008,6 @@ main.touch .main-wrap {
    margin: 0;
    padding: 0;
    list-style: none;
-}
-
-.home-header .hero-title-group.is-open .hero-tech-stack {
-   opacity: 1;
-   visibility: visible;
-   pointer-events: auto;
-   transform: translateY(0);
-}
-
-@media screen and (min-width: 721px) {
-   .home-header .hero-title-group:hover .hero-tech-stack,
-   .home-header .hero-title-group:focus-within .hero-tech-stack {
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
-      transform: translateY(0);
-   }
 }
 
 .home-header .hero-title-icon {
@@ -1182,26 +1155,11 @@ main.touch .main-wrap {
    }
 
    .home-header .hero-tech-stack {
-      display: none;
-   }
-
-   .home-header .hero-title-hint {
-      top: 50%;
-      left: calc(100% + .4em);
-      width: 1.25em;
-      transform: translateY(-50%) rotate(-12deg) scaleX(-1);
-   }
-
-   .home-header .hero-title-group.is-open .hero-tech-stack {
       display: grid;
       order: -1;
       margin-top: 0;
       margin-bottom: .7em;
       font-size: .85rem;
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
-      transform: none;
    }
 
    .home-header .container {

@@ -523,7 +523,6 @@ function initScript() {
   initProjectModal();
   initGithubCard();
   initAskAgent();
-  initHeroTechStack();
   initHeroCloudInteraction();
 }
 
@@ -1705,39 +1704,6 @@ function initAskAgent() {
     handoffs.forEach((handoff) => {
         handoff.href = `https://chatgpt.com/?q=${encodeURIComponent(manifestUrl)}`;
         handoff.dataset.manifestUrl = manifestUrl;
-    });
-}
-
-function initHeroTechStack() {
-    const title = document.querySelector('#hero-title');
-    const group = title?.closest('.hero-title-group');
-
-    if (!title || !group || title.dataset.techToggleInitialized) {
-        return;
-    }
-
-    title.dataset.techToggleInitialized = 'true';
-
-    const setOpen = (open) => {
-        group.classList.toggle('is-open', open);
-        title.setAttribute('aria-expanded', String(open));
-    };
-
-    const isMobile = () => window.matchMedia('(max-width: 720px)').matches;
-
-    title.addEventListener('click', () => {
-        if (!isMobile()) return;
-        setOpen(!group.classList.contains('is-open'));
-    });
-
-    title.addEventListener('keydown', (event) => {
-        if (event.key !== 'Enter' && event.key !== ' ') {
-            return;
-        }
-
-        event.preventDefault();
-        if (!isMobile()) return;
-        setOpen(!group.classList.contains('is-open'));
     });
 }
 
