@@ -4299,10 +4299,18 @@ main.touch .case-intro-image .btn-wrap {
    display: block;
 }
 
-.github-card-wrapper {
+.github-follow-links {
    position: relative;
    z-index: 2;
    width: min(100%, 34rem);
+   display: flex;
+   align-items: flex-end;
+   justify-content: space-between;
+   gap: clamp(1.5rem, 4vw, 3rem);
+}
+
+.github-card-wrapper {
+   position: static;
    font-size: 1rem;
 }
 
@@ -4327,6 +4335,7 @@ main.touch .case-intro-image .btn-wrap {
    text-decoration: underline;
    text-decoration-thickness: .04em;
    text-underline-offset: .12em;
+   white-space: nowrap;
 }
 
 .github-card-trigger:hover,
@@ -4474,7 +4483,7 @@ main.touch .case-intro-image .btn-wrap {
       flex-direction: column;
    }
 
-   .github-card-wrapper {
+   .github-follow-links {
       width: 100%;
    }
 

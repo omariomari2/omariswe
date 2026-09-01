@@ -35,6 +35,12 @@ assert.match(html, /data-description=["'][^"']+["']/, 'experience modal descript
 assert.match(html, /id=["']github-activity["']/, 'GitHub activity section missing');
 assert.match(html, /data-github-card/, 'GitHub activity card hook missing');
 assert.match(html, /data-github-grid/, 'GitHub contribution grid missing');
+assert.match(
+  html,
+  /class=["'][^"']*github-follow-links[^"']*["'][\s\S]*?<a(?=[^>]*class=["'][^"']*github-card-trigger[^"']*["'])(?=[^>]*href=["']https:\/\/x\.com\/omariii_vs\?s=11["'])[^>]*>[\s\S]*?<strong>Twitter<\/strong>[\s\S]*?<\/a>/,
+  'Twitter follow link must sit beside GitHub and share its link styling',
+);
+assert.match(css, /\.github-follow-links \{[^}]*display: flex;[^}]*align-items: flex-end;[^}]*justify-content: space-between;/, 'GitHub and Twitter follow links must render inline');
 assert.match(js, /function initGithubCard/, 'GitHub card initializer missing');
 assert.match(js, /github-contributions-api\.jogruber\.de/, 'GitHub contribution endpoint missing');
 assert.match(js, /total\.textContent = `\$\{contributionTotal\.toLocaleString\(\)\} contributions`;/, 'GitHub total should not include a year');
