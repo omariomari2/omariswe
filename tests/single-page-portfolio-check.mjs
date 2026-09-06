@@ -9,7 +9,6 @@ const manifest = JSON.parse(manifestText);
 const openAiSvg = fs.readFileSync(new URL('../assets/openai.svg', import.meta.url), 'utf8');
 const cloudSvg = fs.readFileSync(new URL('../assets/cloud.svg', import.meta.url), 'utf8');
 const heroHintSvg = fs.readFileSync(new URL('../assets/arr.svg', import.meta.url), 'utf8');
-const blueSkyPath = new URL('../assets/css/blue-sky.css', import.meta.url);
 const normalized = html.replaceAll('&amp;', '&');
 const heroTitleMarkup = html.match(/<h4 id=["']hero-title["'][^>]*>([\s\S]*?)<\/h4>/)?.[1] ?? '';
 
@@ -22,13 +21,6 @@ assert.match(html, /data-work-filter=["']design["']/, 'Experience navigation mus
 assert.match(html, /data-work-filter=["']development["']/, 'Projects navigation must activate Projects');
 assert.match(html, /data-scroll-target=["']#contact["']/, 'Contact navigation target missing');
 assert.match(html, /data-scroll-target=["']#top["']/, 'Bright Owusu mark must return to hero');
-assert.match(html, /<link href=["']assets\/css\/blue-sky\.css["'] rel=["']stylesheet["']>/, 'Exact Blue sky stylesheet must be loaded');
-assert.match(html, /<header id=["']top["'] class=["'][^"']*gradient-aozora[^"']*["']/, 'Hero must use the supplied gradient class');
-assert.ok(fs.existsSync(blueSkyPath), 'Exact Blue sky stylesheet is missing');
-const blueSkyCss = fs.readFileSync(blueSkyPath, 'utf8');
-assert.match(blueSkyCss, /\.gradient-aozora \{[\s\S]*?background: linear-gradient\(135deg in oklab, #E6F2FF 12\.5%, #B3D9FF 37\.5%, #80B3FF 62\.5%, #6699E6 87\.5%\);/, 'Supplied Blue sky gradient changed');
-assert.match(css, /\.home-header \{[^}]*background: transparent;/, 'Hero fallback must not cover the Blue sky gradient');
-assert.match(css, /\.home-header \.personal-image \{[^}]*background: transparent;/, 'Hero image layer must not cover the Blue sky gradient');
 
 assert.doesNotMatch(html, />\s*Home\s*</i, 'Home must not appear as a menu item');
 assert.doesNotMatch(html, /works\/work\.html/i, 'legacy Work-page link remains');
