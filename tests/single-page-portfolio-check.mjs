@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
+import vm from 'node:vm';
 
 const html = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const js = fs.readFileSync(new URL('../assets/js/index-new.js', import.meta.url), 'utf8');
@@ -137,8 +138,19 @@ assert.match(js, /function initAskAgent/, 'Ask Agent initializer missing');
 assert.doesNotMatch(js, /function initHeroTechStack|classList\.toggle\(['"]is-open['"]/, 'Persistent hero technologies should not use a click toggle');
 assert.match(js, /querySelectorAll\('\[data-agent-handoff\]'\)/, 'Agent handoff links are not initialized together');
 assert.doesNotMatch(js, /ask-agent-trigger|ask-agent-providers|agentProvider/, 'About section Ask Agent toggle logic should be removed');
-assert.match(js, /https:\/\/chatgpt\.com\/\?q=\$\{encodeURIComponent\(manifestUrl\)\}/, 'Agent manifest URL construction missing');
-assert.match(js, /encodeURIComponent\(manifestUrl\)/, 'Ask Agent must send only the manifest URL');
+const askAgentSource = js.slice(js.indexOf('function initAskAgent()'), js.indexOf('function initHeroCloudInteraction()'));
+const handoff = { dataset: {} };
+vm.runInNewContext(`${askAgentSource}\ninitAskAgent();`, {
+  URL,
+  document: {
+    querySelectorAll: () => [handoff],
+    querySelector: () => ({ getAttribute: () => 'https://omari.is-a.dev/agent-manifest.json' }),
+  },
+  window: { location: { href: 'https://omari.is-a.dev/' } },
+});
+const chatUrl = new URL(handoff.href);
+assert.equal(chatUrl.origin, 'https://chatgpt.com', 'Ask Agent must open ChatGPT');
+assert.equal(chatUrl.searchParams.get('q'), 'Tell me objectively about [Bright Omari Owusu](https://omari.is-a.dev).', 'Ask Agent must prefill a readable prompt with a Markdown name link and no icon');
 assert.equal(typeof manifest.agentPrompt, 'string', 'manifest agent prompt missing');
 assert.match(manifest.agentPrompt, /concise professional summary/i, 'manifest agent prompt changed unexpectedly');
 assert.equal(manifest.name, 'Bright Owusu', 'manifest name changed unexpectedly');
