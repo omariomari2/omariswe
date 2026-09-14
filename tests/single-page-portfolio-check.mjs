@@ -150,7 +150,7 @@ vm.runInNewContext(`${askAgentSource}\ninitAskAgent();`, {
 });
 const chatUrl = new URL(handoff.href);
 assert.equal(chatUrl.origin, 'https://chatgpt.com', 'Ask Agent must open ChatGPT');
-assert.equal(chatUrl.searchParams.get('q'), 'Tell me objectively about [Bright Omari Owusu](https://omari.is-a.dev).', 'Ask Agent must prefill a readable prompt with a Markdown name link and no icon');
+assert.equal(chatUrl.searchParams.get('q'), 'Tell me objectively about [Bright Omari Owusu](https://omari.is-a.dev/agent-manifest.json).', 'Ask Agent must link the readable name prompt to the structured manifest with no icon');
 assert.equal(typeof manifest.agentPrompt, 'string', 'manifest agent prompt missing');
 assert.match(manifest.agentPrompt, /concise professional summary/i, 'manifest agent prompt changed unexpectedly');
 assert.equal(manifest.name, 'Bright Owusu', 'manifest name changed unexpectedly');
