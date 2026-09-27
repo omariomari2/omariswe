@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
+import { createHash } from 'node:crypto';
 
 const html = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const js = fs.readFileSync(new URL('../assets/js/index-new.js', import.meta.url), 'utf8');
@@ -10,7 +11,7 @@ const manifest = JSON.parse(manifestText);
 const openAiSvg = fs.readFileSync(new URL('../assets/openai.svg', import.meta.url), 'utf8');
 const cloudSvg = fs.readFileSync(new URL('../assets/cloud.svg', import.meta.url), 'utf8');
 const heroHintSvg = fs.readFileSync(new URL('../assets/arr.svg', import.meta.url), 'utf8');
-const blueSkyPath = new URL('../assets/css/blue-sky.css', import.meta.url);
+const blueSkyPath = new URL('../assets/blue-sky.html', import.meta.url);
 const normalized = html.replaceAll('&amp;', '&');
 const heroTitleMarkup = html.match(/<h4 id=["']hero-title["'][^>]*>([\s\S]*?)<\/h4>/)?.[1] ?? '';
 
@@ -23,11 +24,12 @@ assert.match(html, /data-work-filter=["']design["']/, 'Experience navigation mus
 assert.match(html, /data-work-filter=["']development["']/, 'Projects navigation must activate Projects');
 assert.match(html, /data-scroll-target=["']#contact["']/, 'Contact navigation target missing');
 assert.match(html, /data-scroll-target=["']#top["']/, 'Bright Owusu mark must return to hero');
-assert.match(html, /<link href=["']assets\/css\/blue-sky\.css["'] rel=["']stylesheet["']>/, 'Exact Blue sky stylesheet must be loaded');
-assert.match(html, /<header id=["']top["'] class=["'][^"']*gradient-aozora[^"']*["']/, 'Hero must use the supplied gradient class');
-assert.ok(fs.existsSync(blueSkyPath), 'Exact Blue sky stylesheet is missing');
-const blueSkyCss = fs.readFileSync(blueSkyPath, 'utf8');
-assert.match(blueSkyCss, /\.gradient-aozora \{[\s\S]*?background: linear-gradient\(135deg in oklab, #E6F2FF 12\.5%, #B3D9FF 37\.5%, #80B3FF 62\.5%, #6699E6 87\.5%\);/, 'Supplied Blue sky gradient changed');
+assert.match(html, /<header id=["']top["'] class=["'][^"']*home-header[^"']*["'][^>]*>[\s\S]*?<iframe[^>]*src=["']assets\/blue-sky\.html["'][^>]*aria-hidden=["']true["'][^>]*tabindex=["']-1["']/, 'Hero must embed the supplied HTML as an inert background');
+assert.doesNotMatch(html, /blue-sky\.css|gradient-aozora/, 'Old CSS approximation must not remain active');
+assert.ok(fs.existsSync(blueSkyPath), 'Supplied Blue sky HTML is missing');
+const blueSkyHash = createHash('sha256').update(fs.readFileSync(blueSkyPath)).digest('hex');
+assert.equal(blueSkyHash, 'fc6e2326c6248496c6a965510d989313c86ccae08649171aa5260f6e64151615', 'Supplied Blue sky HTML must remain byte-for-byte unchanged');
+assert.match(css, /\.home-header \.hero-gradient-frame \{[^}]*position: absolute;[^}]*inset: 0;[^}]*pointer-events: none;/, 'Supplied gradient must cover the hero without intercepting interaction');
 assert.match(css, /\.home-header \{[^}]*background: transparent;/, 'Hero fallback must not cover the Blue sky gradient');
 assert.match(css, /\.home-header \.personal-image \{[^}]*background: transparent;/, 'Hero image layer must not cover the Blue sky gradient');
 
