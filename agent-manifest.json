@@ -74,6 +74,21 @@
   ],
   "projects": [
     {
+      "name": "dropauth",
+      "subtitle": "Google sign-in on Cloudflare",
+      "stack": [
+        "TypeScript",
+        "OpenAuth",
+        "Cloudflare Workers",
+        "D1",
+        "KV"
+      ],
+      "highlights": [
+        "Building Google sign-in and private user profiles on Cloudflare Workers."
+      ],
+      "url": "https://github.com/omariomari2/openauth_exploration"
+    },
+    {
       "name": "Immigration Assistant",
       "recognition": "Winner, Code2040 TFR Hackathon",
       "stack": [

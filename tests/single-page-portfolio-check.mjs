@@ -157,7 +157,7 @@ assert.equal(typeof manifest.agentPrompt, 'string', 'manifest agent prompt missi
 assert.match(manifest.agentPrompt, /concise professional summary/i, 'manifest agent prompt changed unexpectedly');
 assert.equal(manifest.name, 'Bright Owusu', 'manifest name changed unexpectedly');
 assert.equal(manifest.experience.length, 4, 'manifest experience count changed unexpectedly');
-assert.equal(manifest.projects.length, 3, 'manifest project count changed unexpectedly');
+assert.equal(manifest.projects.length, 4, 'manifest should include all four current projects');
 assert.doesNotMatch(manifestText, /318-265-8445|owusuomaribright@gmail\.com/i, 'private contact data leaked into manifest');
 
 for (const company of [
@@ -170,12 +170,15 @@ for (const company of [
   assert.match(normalized, new RegExp(company.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')), `missing experience: ${company}`);
 }
 
-for (const project of ['Uncluster', 'WVS 1.01', 'Immigration Assistant', 'Go-Shop', 'Enterprise ERP']) {
+for (const project of ['Uncluster', 'WVS 1.01', 'Immigration Assistant', 'dropauth']) {
   assert.match(html, new RegExp(project.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')), `missing project: ${project}`);
 }
 assert.equal((html.match(/https:\/\/github\.com\/omariomari2\/WVS-1\.01\.git/g) || []).length, 2, 'WVS project links should use the WVS 1.01 repository');
 assert.doesNotMatch(html, /WVS 1\.02|github\.com\/omariomari2\/wvs-102/, 'Old WVS 1.02 project reference remains');
-assert.equal((html.match(/https:\/\/ems-woad-kappa\.vercel\.app\//g) || []).length, 2, 'Go-Shop project links should use the live deployment');
+assert.doesNotMatch(html, /Go-Shop|Enterprise ERP|ems-woad-kappa|erp_adminbackup/, 'Retired projects must not remain in either layout');
+assert.equal((html.match(/https:\/\/github\.com\/omariomari2\/openauth_exploration/g) || []).length, 2, 'dropauth must link to OpenAuth exploration in both layouts');
+assert.match(html, /Projects<div class="count-nr">4<\/div>/, 'Project count should match the current list');
+assert.ok(manifest.projects.some(project => project.name === 'dropauth'), 'Agent profile must include dropauth');
 
 assert.match(html, /I build cloud-native infrastructure, backend platforms, and security systems focused on reliability, automation, and applied AI\./, 'cloud-focused about headline changed unexpectedly');
 assert.match(html, /I specialize in building reliable cloud systems with Python, Google Cloud, and Terraform, using Cursor to accelerate thoughtful, production-ready engineering\./, 'skills-focused about copy changed unexpectedly');
