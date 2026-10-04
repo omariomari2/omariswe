@@ -1563,7 +1563,7 @@ function initAskAgent() {
     const manifestUrl = manifestLink
         ? new URL(manifestLink.getAttribute('href'), window.location.href).href
         : new URL('agent-manifest.json', window.location.href).href;
-    const prompt = `What do you think of Bright?\n\n${manifestUrl}`;
+    const prompt = `What do you think of [Bright](${manifestUrl})?`;
 
     handoffs.forEach((handoff) => {
         handoff.href = `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`;
