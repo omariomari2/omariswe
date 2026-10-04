@@ -145,9 +145,10 @@ vm.runInNewContext(`${askAgentSource}\ninitAskAgent();`, {
 });
 const chatUrl = new URL(handoff.href);
 assert.equal(chatUrl.origin, 'https://chatgpt.com', 'Ask Agent must open ChatGPT');
-assert.equal(chatUrl.searchParams.get('q'), 'Tell me objectively about Bright Omari Owusu.\n\nUse this portfolio manifest:\nhttps://omari.is-a.dev/agent-manifest.json', 'Ask Agent must send a readable prompt with a bare manifest URL');
+assert.equal(chatUrl.searchParams.get('q'), 'What do you think of Bright?\n\nhttps://omari.is-a.dev/agent-manifest.json', 'Ask Agent must send the minimal question with a bare manifest URL');
 assert.equal(typeof manifest.agentPrompt, 'string', 'manifest agent prompt missing');
 assert.match(manifest.agentPrompt, /concise professional summary/i, 'manifest agent prompt changed unexpectedly');
+assert.equal(manifest.handoffPrompt, 'What do you think of Bright?', 'manifest handoff prompt changed unexpectedly');
 assert.equal(manifest.name, 'Bright Owusu', 'manifest name changed unexpectedly');
 assert.equal(manifest.experience.length, 4, 'manifest experience count changed unexpectedly');
 assert.equal(manifest.projects.length, 5, 'manifest should include all five current projects');
