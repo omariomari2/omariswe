@@ -44,20 +44,13 @@ assert.match(html, /class=["']section work-tiles grid-fade grid-columns-part["']
 assert.match(html, /id=["']projectModal["']/, 'experience detail modal missing');
 assert.match(html, /data-description=["'][^"']+["']/, 'experience modal descriptions missing');
 assert.match(html, /id=["']github-activity["']/, 'GitHub activity section missing');
-assert.match(html, /data-github-card/, 'GitHub activity card hook missing');
-assert.match(html, /data-github-grid/, 'GitHub contribution grid missing');
+assert.doesNotMatch(html + js + css, /data-github-card|data-github-grid|github-card-popover|initGithubCard|github-contributions-api/, 'The GitHub hover card and its requests must be removed');
 assert.match(
   html,
   /class=["'][^"']*github-follow-links[^"']*["'][\s\S]*?<a(?=[^>]*class=["'][^"']*github-card-trigger[^"']*["'])(?=[^>]*href=["']https:\/\/x\.com\/omariii_vs\?s=11["'])[^>]*>[\s\S]*?<strong>Twitter<\/strong>[\s\S]*?<\/a>/,
   'Twitter follow link must sit beside GitHub and share its link styling',
 );
 assert.match(css, /\.github-follow-links \{[^}]*display: flex;[^}]*align-items: flex-end;[^}]*justify-content: space-between;/, 'GitHub and Twitter follow links must render inline');
-assert.match(js, /function initGithubCard/, 'GitHub card initializer missing');
-assert.match(js, /github-contributions-api\.jogruber\.de/, 'GitHub contribution endpoint missing');
-assert.match(js, /total\.textContent = `\$\{contributionTotal\.toLocaleString\(\)\} contributions`;/, 'GitHub total should not include a year');
-assert.doesNotMatch(js, /contributionTotal\.toLocaleString\(\)\} contributions in \$\{year\}/, 'GitHub total still includes a year');
-assert.match(js, /const colors = \['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353'\]/, 'GitHub contribution colors missing');
-assert.match(css, /background: #0e4429;[\s\S]*?background: #006d32;[\s\S]*?background: #26a641;[\s\S]*?background: #39d353;/, 'GitHub legend must use green contribution colors');
 assert.doesNotMatch(html, /ask-agent-wrap|ask-agent-providers|ask-agent-trigger/, 'About section Ask Agent controls should be removed');
 assert.match(html, /id=["']ask-agent-hanger["']/, 'Header Chat Agent control missing');
 assert.match(html, /Ask your agent about me/, 'Header Chat Agent label missing');

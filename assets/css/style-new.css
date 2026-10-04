@@ -4354,140 +4354,6 @@ main.touch .case-intro-image .btn-wrap {
    color: var(--color-blue);
 }
 
-.github-card-popover {
-   position: absolute;
-   right: 0;
-   bottom: calc(100% + 1.5rem);
-   width: min(34rem, calc(100vw - (var(--container-padding) * 2)));
-   padding: 1.5rem;
-   color: var(--color-white);
-   background: rgba(28, 29, 32, .97);
-   border: 1px dashed rgba(255, 255, 255, .24);
-   border-radius: 1rem;
-   box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, .2);
-   opacity: 0;
-   visibility: hidden;
-   pointer-events: none;
-   transform: translateY(.75rem) perspective(1000px) rotateX(var(--github-card-rotate-x, -4deg)) rotateY(var(--github-card-rotate-y, 0deg));
-   transform-origin: bottom center;
-   transition: opacity .22s ease, transform .22s ease, visibility .22s ease;
-}
-
-.github-card-wrapper:hover .github-card-popover,
-.github-card-wrapper:focus-within .github-card-popover,
-.github-card-popover.is-visible {
-   opacity: 1;
-   visibility: visible;
-   pointer-events: auto;
-   transform: translateY(0) perspective(1000px) rotateX(var(--github-card-rotate-x, 0deg)) rotateY(var(--github-card-rotate-y, 0deg));
-}
-
-.github-card-profile {
-   display: flex;
-   align-items: center;
-   gap: .75rem;
-   margin-bottom: 1.5rem;
-}
-
-.github-card-avatar {
-   width: 3rem;
-   height: 3rem;
-   flex: 0 0 3rem;
-   border: 1px solid rgba(255, 255, 255, .2);
-   border-radius: 50%;
-   object-fit: cover;
-}
-
-.github-card-profile-copy {
-   display: flex;
-   flex-direction: column;
-   gap: .2rem;
-}
-
-.github-card-profile-copy strong {
-   font-size: 1rem;
-   font-weight: 500;
-}
-
-.github-card-profile-copy span,
-.github-card-status {
-   color: rgba(255, 255, 255, .58);
-   font-size: .75rem;
-}
-
-.github-card-contributions {
-   display: grid;
-   grid-template-columns: repeat(17, minmax(0, 1fr));
-   grid-auto-rows: 1fr;
-   gap: .3rem;
-   width: 100%;
-   min-height: 7.25rem;
-}
-
-.github-card-day {
-   min-width: 0;
-   aspect-ratio: 1;
-   background: #262626;
-   border-radius: .18rem;
-   transition: transform .18s ease, filter .18s ease;
-}
-
-.github-card-day:hover {
-   z-index: 1;
-   filter: brightness(1.2);
-   transform: scale(1.25);
-}
-
-.github-card-footer {
-   display: flex;
-   align-items: center;
-   justify-content: space-between;
-   gap: .75rem;
-   margin-top: 1.25rem;
-   color: rgba(255, 255, 255, .78);
-   font-size: .75rem;
-}
-
-.github-card-legend {
-   display: inline-flex;
-   align-items: center;
-   gap: .25rem;
-   color: rgba(255, 255, 255, .48);
-   white-space: nowrap;
-}
-
-.github-card-legend i {
-   display: block;
-   width: .65rem;
-   height: .65rem;
-   background: #161b22;
-   border-radius: .12rem;
-}
-
-.github-card-legend i:nth-of-type(2) {
-   background: #0e4429;
-}
-
-.github-card-legend i:nth-of-type(3) {
-   background: #006d32;
-}
-
-.github-card-legend i:nth-of-type(4) {
-   background: #26a641;
-}
-
-.github-card-legend i:nth-of-type(5) {
-   background: #39d353;
-}
-
-.github-card-status {
-   margin-top: .75rem;
-}
-
-.github-card-status:empty {
-   display: none;
-}
-
 @media screen and (max-width: 720px) {
    .github-card-layout {
       align-items: flex-start;
@@ -4498,35 +4364,10 @@ main.touch .case-intro-image .btn-wrap {
       width: 100%;
    }
 
-   .github-card-popover {
-      left: 0;
-      right: auto;
-   }
-}
-
-@media screen and (max-width: 540px) {
-   .github-card-popover {
-      padding: 1rem;
-   }
-
-   .github-card-contributions {
-      gap: .2rem;
-   }
-
-   .github-card-footer {
-      align-items: flex-start;
-      flex-direction: column;
-   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-   .github-card-popover,
-   .github-card-day,
    .github-card-trigger {
       transition: none;
-   }
-
-   .github-card-popover {
-      transform: none;
    }
 }
