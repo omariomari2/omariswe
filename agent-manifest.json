@@ -74,6 +74,33 @@
   ],
   "projects": [
     {
+      "name": "InfraMail",
+      "subtitle": "Learning AWS networking",
+      "stack": [
+        "AWS",
+        "PHP",
+        "MySQL",
+        "RDS"
+      ],
+      "highlights": [
+        "An AWS networking lab for a PHP mailing-address app, with reverse proxies and MySQL on RDS."
+      ],
+      "url": "https://github.com/omariomari2/RDS_InfraMail"
+    },
+    {
+      "name": "PersonalBanker",
+      "subtitle": "Voice banking lab",
+      "stack": [
+        "Amazon Lex",
+        "Connect",
+        "Lambda"
+      ],
+      "highlights": [
+        "An AWS voice banking lab with mock account data, bot setup notes, and a contact-flow export. The Lambda source is not included."
+      ],
+      "url": "https://github.com/omariomari2/Call-Center"
+    },
+    {
       "name": "dropauth",
       "subtitle": "Google sign-in on Cloudflare",
       "stack": [
@@ -90,6 +117,7 @@
     },
     {
       "name": "Immigration Assistant",
+      "url": "https://omariomari2.github.io/webpager/",
       "recognition": "Winner, Code2040 TFR Hackathon",
       "stack": [
         "Python",
