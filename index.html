@@ -28,6 +28,50 @@
   <link href="assets/css/style-new.css?v=blue-sky-hero" rel="stylesheet">
   <link rel="alternate" type="application/json" href="https://omari.is-a.dev/agent-manifest.json"
     title="Machine-readable portfolio profile">
+  <link rel="describedby" type="text/plain" href="https://omari.is-a.dev/llms.txt">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "@id": "https://omari.is-a.dev/#profile",
+    "url": "https://omari.is-a.dev/",
+    "name": "Bright Omari Owusu • Software Engineer",
+    "description": "An early-career software engineer focused on security and cloud engineering.",
+    "mainEntity": {
+      "@type": "Person",
+      "@id": "https://omari.is-a.dev/#bright",
+      "name": "Bright Omari Owusu",
+      "alternateName": "Bright Owusu",
+      "url": "https://omari.is-a.dev/",
+      "jobTitle": "Software Engineer",
+      "description": "Early-career software engineer building backend, cloud, security, developer tooling, and AI automation projects.",
+      "affiliation": {
+        "@type": "CollegeOrUniversity",
+        "name": "Grambling State University"
+      },
+      "knowsAbout": [
+        "Software engineering",
+        "Cloud infrastructure",
+        "Cloud security",
+        "Application security",
+        "Authentication and identity",
+        "Developer tooling",
+        "AI automation"
+      ],
+      "sameAs": [
+        "https://github.com/omariomari2",
+        "https://www.linkedin.com/in/owusuomaribright"
+      ],
+      "subjectOf": {
+        "@type": "DigitalDocument",
+        "name": "Bright Omari Owusu agent manifest",
+        "url": "https://omari.is-a.dev/agent-manifest.json",
+        "encodingFormat": "application/json"
+      }
+    }
+  }
+  </script>
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-SGWQQRQ15Y"></script>
   <script>
@@ -602,7 +646,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@barba/core@2.10.3"></script>
   <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.6.1/dist/lazyload.min.js"></script>
   <script src="assets/js/locomotive-scroll.min.js"></script>
-  <script defer src="assets/js/index-new.js?v=linked-bright-prompt"></script>
+  <script defer src="assets/js/index-new.js?v=clean-agent-handoff"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       function activateWorkFilter(filter) {

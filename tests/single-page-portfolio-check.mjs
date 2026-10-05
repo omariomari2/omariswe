@@ -8,6 +8,9 @@ const js = fs.readFileSync(new URL('../assets/js/index-new.js', import.meta.url)
 const css = fs.readFileSync(new URL('../assets/css/style-new.css', import.meta.url), 'utf8');
 const manifestText = fs.readFileSync(new URL('../agent-manifest.json', import.meta.url), 'utf8');
 const manifest = JSON.parse(manifestText);
+const llmsText = fs.readFileSync(new URL('../llms.txt', import.meta.url), 'utf8');
+const robotsText = fs.readFileSync(new URL('../robots.txt', import.meta.url), 'utf8');
+const sitemapText = fs.readFileSync(new URL('../sitemap.xml', import.meta.url), 'utf8');
 const openAiSvg = fs.readFileSync(new URL('../assets/openai.svg', import.meta.url), 'utf8');
 const cloudSvg = fs.readFileSync(new URL('../assets/cloud.svg', import.meta.url), 'utf8');
 const heroHintSvg = fs.readFileSync(new URL('../assets/arr.svg', import.meta.url), 'utf8');
@@ -129,6 +132,8 @@ assert.match(css, /prefers-reduced-motion: reduce[\s\S]*?\.home-header \.hanger-
 assert.match(html, /data-agent-handoff/, 'Shared agent handoff hook missing');
 assert.match(html, /href=["']https:\/\/chatgpt\.com\/["']/, 'Ask Agent fallback URL missing');
 assert.match(html, /href=["']https:\/\/omari\.is-a\.dev\/agent-manifest\.json["']/, 'Public portfolio manifest link missing');
+assert.match(html, /rel=["']describedby["'][^>]*href=["']https:\/\/omari\.is-a\.dev\/llms\.txt["']/, 'LLM discovery link missing');
+assert.match(html, /<script type=["']application\/ld\+json["']>[\s\S]*?"@type": "ProfilePage"[\s\S]*?"@type": "Person"[\s\S]*?"name": "Bright Omari Owusu"/, 'ProfilePage Person structured data missing');
 assert.match(js, /function initAskAgent/, 'Ask Agent initializer missing');
 assert.doesNotMatch(js, /function initHeroTechStack|classList\.toggle\(['"]is-open['"]/, 'Persistent hero technologies should not use a click toggle');
 assert.match(js, /querySelectorAll\('\[data-agent-handoff\]'\)/, 'Agent handoff links are not initialized together');
@@ -145,14 +150,20 @@ vm.runInNewContext(`${askAgentSource}\ninitAskAgent();`, {
 });
 const chatUrl = new URL(handoff.href);
 assert.equal(chatUrl.origin, 'https://chatgpt.com', 'Ask Agent must open ChatGPT');
-assert.equal(chatUrl.searchParams.get('q'), 'What do you think of [Bright](https://omari.is-a.dev/agent-manifest.json)?', 'Ask Agent must embed the manifest link in Bright');
+assert.equal(chatUrl.searchParams.get('q'), 'Who is Bright Omari Owusu?', 'Ask Agent must use a clean entity question');
 assert.equal(typeof manifest.agentPrompt, 'string', 'manifest agent prompt missing');
 assert.match(manifest.agentPrompt, /concise professional summary/i, 'manifest agent prompt changed unexpectedly');
-assert.equal(manifest.handoffPrompt, 'What do you think of Bright?', 'manifest handoff prompt changed unexpectedly');
+assert.equal(manifest.handoffPrompt, 'Who is Bright Omari Owusu?', 'manifest handoff prompt changed unexpectedly');
 assert.equal(manifest.name, 'Bright Owusu', 'manifest name changed unexpectedly');
 assert.equal(manifest.experience.length, 4, 'manifest experience count changed unexpectedly');
 assert.equal(manifest.projects.length, 5, 'manifest should include all five current projects');
 assert.doesNotMatch(manifestText, /318-265-8445|owusuomaribright@gmail\.com/i, 'private contact data leaked into manifest');
+assert.match(llmsText, /^# Bright Omari Owusu/m, 'llms.txt title missing');
+assert.match(llmsText, /agent-manifest\.json/, 'llms.txt must link the canonical manifest');
+assert.match(robotsText, /User-agent: OAI-SearchBot\s+Allow: \//, 'OAI-SearchBot must be allowed');
+assert.match(robotsText, /User-agent: ChatGPT-User\s+Allow: \//, 'ChatGPT-User must be allowed');
+assert.match(sitemapText, /https:\/\/omari\.is-a\.dev\/agent-manifest\.json/, 'manifest must appear in the sitemap');
+assert.doesNotMatch(llmsText, /318-265-8445|owusuomaribright@gmail\.com/i, 'private contact data leaked into llms.txt');
 
 for (const company of [
   'Palo Alto Networks',
