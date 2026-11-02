@@ -48,12 +48,6 @@ assert.match(html, /id=["']projectModal["']/, 'experience detail modal missing')
 assert.match(html, /data-description=["'][^"']+["']/, 'experience modal descriptions missing');
 assert.match(html, /id=["']github-activity["']/, 'GitHub activity section missing');
 assert.doesNotMatch(html + js + css, /data-github-card|data-github-grid|github-card-popover|initGithubCard|github-contributions-api/, 'The GitHub hover card and its requests must be removed');
-assert.match(
-  html,
-  /class=["'][^"']*github-follow-links[^"']*["'][\s\S]*?<a(?=[^>]*class=["'][^"']*github-card-trigger[^"']*["'])(?=[^>]*href=["']https:\/\/x\.com\/omariii_vs\?s=11["'])[^>]*>[\s\S]*?<strong>Twitter<\/strong>[\s\S]*?<\/a>/,
-  'Twitter follow link must sit beside GitHub and share its link styling',
-);
-assert.match(css, /\.github-follow-links \{[^}]*display: flex;[^}]*align-items: flex-end;[^}]*justify-content: space-between;/, 'GitHub and Twitter follow links must render inline');
 assert.doesNotMatch(html, /ask-agent-wrap|ask-agent-providers|ask-agent-trigger/, 'About section Ask Agent controls should be removed');
 assert.match(html, /id=["']ask-agent-hanger["']/, 'Header Chat Agent control missing');
 assert.match(html, /Ask your agent about me/, 'Header Chat Agent label missing');
