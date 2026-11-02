@@ -993,10 +993,11 @@ main.touch .main-wrap {
 }
 
 @media screen and (min-width: 721px) {
-   .home-header .container,
-   .home-header .row,
-   .home-header .row .flex-col {
-      position: static;
+   .home-header .container {
+      position: absolute;
+      top: 78vh;
+      left: 0;
+      padding-bottom: 0;
    }
 
    .home-header .big-name {
@@ -1006,9 +1007,8 @@ main.touch .main-wrap {
    }
 
    .home-header .row .hero-title-group {
-      position: absolute;
-      top: 78vh;
-      right: var(--container-padding);
+      position: relative;
+      top: 0;
    }
 }
 
