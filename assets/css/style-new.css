@@ -1050,7 +1050,7 @@ main.touch .main-wrap {
    width: 100%;
    margin-top: .7em;
    color: #fff;
-   font-size: clamp(.55rem, .7vw, .7rem);
+   font-size: clamp(.65rem, .8vw, .8rem);
    line-height: 1.2;
    opacity: 1;
    visibility: visible;
