@@ -4316,7 +4316,7 @@ main.touch .case-intro-image .btn-wrap {
    width: min(100%, 34rem);
    display: flex;
    align-items: flex-end;
-   justify-content: space-between;
+   justify-content: flex-end;
    gap: clamp(1.5rem, 4vw, 3rem);
 }
 
