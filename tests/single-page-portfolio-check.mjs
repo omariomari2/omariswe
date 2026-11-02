@@ -53,7 +53,7 @@ assert.match(html, /id=["']ask-agent-hanger["']/, 'Header Chat Agent control mis
 assert.match(html, /Ask your agent about me/, 'Header Chat Agent label missing');
 assert.match(html, /src=["']assets\/openai\.svg(?:\?[^"']*)?["']/, 'Header OpenAI image missing');
 assert.match(html, /<img[^>]*id=["']hero-arrow["'][^>]*src=["']assets\/cl\.png["']/, 'Hero image should use cl.png');
-assert.match(html, /<span class=["']name-primary["']>Bright Omari Owusu<\/span>\s*<span class=["']name-role["']>Cloud\/SWE<\/span>/, 'Static name lockup should include the name and Cloud/SWE role');
+assert.match(html, /<span class=["']name-primary["']>Bright Omari Owusu<\/span>\s*<\/h1>/, 'Hero name should occupy one line without a role subtitle');
 assert.doesNotMatch(html, /class=["']name-h1["'][^>]*data-scroll/, 'Hero name should not use marquee scrolling');
 assert.doesNotMatch(js, /initScrollLetters\(\);/, 'Hero name should not initialize marquee scrolling');
 assert.doesNotMatch(html, /class=["']overlay personal-image[^"']*data-scroll/, 'Hero cloud should not use scroll-driven parallax');
