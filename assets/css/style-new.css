@@ -938,6 +938,20 @@ main.touch .main-wrap {
    margin: 0;
    padding: 0;
    text-align: left;
+   justify-content: center;
+   height: 2em;
+   padding-bottom: .15em;
+   box-sizing: border-box;
+}
+
+.home-header .big-name h1::after {
+   content: "";
+   position: absolute;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   height: 2px;
+   background: currentColor;
 }
 
 .home-header .container {
@@ -974,6 +988,28 @@ main.touch .main-wrap {
    width: fit-content;
    font-size: 2em;
    padding-bottom: .15em;
+   height: 2em;
+   box-sizing: border-box;
+}
+
+@media screen and (min-width: 721px) {
+   .home-header .container,
+   .home-header .row,
+   .home-header .row .flex-col {
+      position: static;
+   }
+
+   .home-header .big-name {
+      top: 78vh;
+      bottom: auto;
+      padding-bottom: 0;
+   }
+
+   .home-header .row .hero-title-group {
+      position: absolute;
+      top: 78vh;
+      right: var(--container-padding);
+   }
 }
 
 .home-header .hero-title-hint {
