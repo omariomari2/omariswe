@@ -25,7 +25,7 @@
   <link href="assets/css/locomotive-scroll.css" rel="stylesheet">
   <link href="assets/css/styleguide.css" rel="stylesheet">
   <link href="assets/css/components.css" rel="stylesheet">
-  <link href="assets/css/style-new.css?v=blue-sky-hero" rel="stylesheet">
+  <link href="assets/css/style-new.css?v=blogs-filter" rel="stylesheet">
   <link rel="alternate" type="application/json" href="https://omari.is-a.dev/agent-manifest.json"
     title="Machine-readable portfolio profile">
   <link rel="describedby" type="text/plain" href="https://omari.is-a.dev/llms.txt">
@@ -293,6 +293,7 @@
         <div class="container"><div class="filter-row"><div class="toggle-row">
           <div class="btn btn-normal design-btn active"><div class="btn-click magnetic" data-strength="25" data-strength-text="15"><div class="btn-fill"></div><span class="btn-text"><span class="btn-text-inner change">Experience<div class="count-nr">5</div></span></span></div></div>
           <div class="btn btn-normal development-btn" id="projects"><div class="btn-click magnetic" data-strength="25" data-strength-text="15"><div class="btn-fill"></div><span class="btn-text"><span class="btn-text-inner change">Projects<div class="count-nr">5</div></span></span></div></div>
+          <div class="btn btn-normal blogs-btn" id="blogs" role="button" tabindex="0" aria-pressed="false"><div class="btn-click magnetic" data-strength="25" data-strength-text="15"><div class="btn-fill"></div><span class="btn-text"><span class="btn-text-inner change">Blogs<div class="count-nr">2</div></span></span></div></div>
         </div></div></div>
       </section>
       <section class="section-wrap section-wrap-work once-in" data-scroll-section>
@@ -300,8 +301,25 @@
           <div class="grid-sub-title">
             <div class="grid-sub-title-design" style="width:100%; display:flex;"><div class="flex-col"><h5>Company</h5></div><div class="flex-col"><h5>Role</h5></div><div class="flex-col"><h5>Period</h5></div></div>
             <div class="grid-sub-title-development" style="display:none; width:100%;"><div class="flex-col"><h5>Project</h5></div><div class="flex-col"><h5>System</h5></div><div class="flex-col"><h5>Stack</h5></div></div>
+            <div class="grid-sub-title-blogs" style="display:none; width:100%;"><div class="flex-col"><h5>Article</h5></div><div class="flex-col"><h5>Publication</h5></div><div class="flex-col"><h5>Published</h5></div></div>
           </div>
           <ul class="work-items mouse-pos-list-image-wrap all-active">
+              <li class="blogs">
+                <div class="stripe animate"></div>
+                <a href="https://medium.com/@owusuomaribright/automating-privileged-access-security-auth-and-telemetry-c241b689ce5e" class="row" target="_blank" rel="noopener noreferrer">
+                  <div class="flex-col"><h4><span>Automating Privileged Access: Security, Auth and Telemetry</span></h4></div>
+                  <div class="flex-col animate"><p>Medium</p></div>
+                  <div class="flex-col animate"><p>Oct 2026</p></div>
+                </a>
+              </li>
+              <li class="blogs">
+                <div class="stripe animate"></div>
+                <a href="https://medium.com/@owusuomaribright/pen-testing-its-actually-enjoyable-20dde17ff28a" class="row" target="_blank" rel="noopener noreferrer">
+                  <div class="flex-col"><h4><span>Pen Testing: It’s actually enjoyable!</span></h4></div>
+                  <div class="flex-col animate"><p>Medium</p></div>
+                  <div class="flex-col animate"><p>Oct 2025</p></div>
+                </a>
+              </li>
               <li class="design visible">
                 <div class="stripe animate"></div>
                 <a href="#" class="row" data-description="Built cloud-security automation and AI tooling for 2,000+ engineers, including Slack-based on-call triage and Azure privileged-access workflows across 16 production tenants.">
@@ -331,7 +349,7 @@
                 <a href="#" class="row" data-description="Built backend notification services with gRPC, GraphQL, PostgreSQL and Kubernetes, supporting high-throughput workloads with 99.9% uptime.">
                   <div class="flex-col"><h4><span>Maddy Group Ltd</span></h4></div>
                   <div class="flex-col animate"><p>Software Engineering Intern</p></div>
-                  <div class="flex-col animate"><p>Jan 2025 – Aug 2025</p></div>
+                  <div class="flex-col animate"><p>May 2025 – Aug 2025</p></div>
                 </a>
               </li>
               <li class="design visible">
@@ -339,7 +357,7 @@
                 <a href="#" class="row" data-description="Built an AWS voice agent for student services and improved intent routing through production-log analysis and iterative NLP testing.">
                   <div class="flex-col"><h4><span>GSU College of Arts &amp; Science, Digital Technologies</span></h4></div>
                   <div class="flex-col animate"><p>Undergraduate Researcher</p></div>
-                  <div class="flex-col animate"><p>Jan 2025 – Aug 2025</p></div>
+                  <div class="flex-col animate"><p>Jan 2025 – Apr 2025</p></div>
                 </a>
               </li>
               <li class="development">
@@ -386,6 +404,26 @@
           </ul>
         </div></section>
         <section class="section work-tiles grid-fade grid-columns-part"><div class="container"><ul>
+            <li class="blogs">
+              <div class="single-tile-wrap">
+                <a href="https://medium.com/@owusuomaribright/automating-privileged-access-security-auth-and-telemetry-c241b689ce5e" class="row" target="_blank" rel="noopener noreferrer">
+                  <div class="flex-col"><div class="tile-image"><div class="overlay overlay-color" style="background-color: #334155;"></div></div></div>
+                  <div class="flex-col"><h4><span>Automating Privileged Access: Security, Auth and Telemetry</span></h4><div class="stripe"></div></div>
+                  <div class="flex-col"><p>Medium</p></div>
+                  <div class="flex-col"><p>Oct 2026</p></div>
+                </a>
+              </div>
+            </li>
+            <li class="blogs">
+              <div class="single-tile-wrap">
+                <a href="https://medium.com/@owusuomaribright/pen-testing-its-actually-enjoyable-20dde17ff28a" class="row" target="_blank" rel="noopener noreferrer">
+                  <div class="flex-col"><div class="tile-image"><div class="overlay overlay-color" style="background-color: #475569;"></div></div></div>
+                  <div class="flex-col"><h4><span>Pen Testing: It’s actually enjoyable!</span></h4><div class="stripe"></div></div>
+                  <div class="flex-col"><p>Medium</p></div>
+                  <div class="flex-col"><p>Oct 2025</p></div>
+                </a>
+              </div>
+            </li>
             <li class="design visible">
               <div class="single-tile-wrap">
                 <a href="#" class="row" data-description="Built cloud-security automation and AI tooling for 2,000+ engineers, including Slack-based on-call triage and Azure privileged-access workflows across 16 production tenants.">
@@ -422,7 +460,7 @@
                   <div class="flex-col"><div class="tile-image"><div class="overlay overlay-color" style="background-color: #374151;"></div></div></div>
                   <div class="flex-col"><h4><span>Maddy Group Ltd</span></h4><div class="stripe"></div></div>
                   <div class="flex-col"><p>Software Engineering Intern</p></div>
-                  <div class="flex-col"><p>Jan 2025 – Aug 2025</p></div>
+                  <div class="flex-col"><p>May 2025 – Aug 2025</p></div>
                 </a>
               </div>
             </li>
@@ -432,7 +470,7 @@
                   <div class="flex-col"><div class="tile-image"><div class="overlay overlay-color" style="background-color: #6B7280;"></div></div></div>
                   <div class="flex-col"><h4><span>GSU College of Arts &amp; Science, Digital Technologies</span></h4><div class="stripe"></div></div>
                   <div class="flex-col"><p>Undergraduate Researcher</p></div>
-                  <div class="flex-col"><p>Jan 2025 – Aug 2025</p></div>
+                  <div class="flex-col"><p>Jan 2025 – Apr 2025</p></div>
                 </a>
               </div>
             </li>
@@ -645,30 +683,43 @@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       function activateWorkFilter(filter) {
-        var showProjects = filter === 'development';
-        var activeButton = document.querySelector(showProjects ? '.development-btn' : '.design-btn');
-        var inactiveButton = document.querySelector(showProjects ? '.design-btn' : '.development-btn');
-        if (activeButton) { activeButton.classList.add('active'); activeButton.classList.remove('not-active'); }
-        if (inactiveButton) { inactiveButton.classList.remove('active'); inactiveButton.classList.add('not-active'); }
-        var designHeader = document.querySelector('.grid-sub-title-design');
-        var projectHeader = document.querySelector('.grid-sub-title-development');
-        if (designHeader) designHeader.style.display = showProjects ? 'none' : 'flex';
-        if (projectHeader) projectHeader.style.display = showProjects ? 'flex' : 'none';
+        ['design', 'development', 'blogs'].forEach(function (category) {
+          var button = document.querySelector('.' + category + '-btn');
+          var active = category === filter;
+          if (button) {
+            button.classList.toggle('active', active);
+            button.classList.toggle('not-active', !active);
+            button.setAttribute('aria-pressed', String(active));
+          }
+          var header = document.querySelector('.grid-sub-title-' + category);
+          if (header) header.style.display = active ? 'flex' : 'none';
+        });
         document.querySelectorAll('.work-items li, .work-tiles li').forEach(function (item) {
           item.classList.remove('visible');
-          if (item.classList.contains(showProjects ? 'development' : 'design')) item.classList.add('visible');
+          if (item.classList.contains(filter)) item.classList.add('visible');
         });
+        var moreLink = document.querySelector('.center-grid-btn-home a');
+        if (moreLink) {
+          moreLink.href = filter === 'blogs' ? 'https://medium.com/@owusuomaribright' : 'https://github.com/omariomari2';
+          moreLink.querySelector('.btn-text-inner').textContent = filter === 'blogs' ? 'More writing' : 'More work';
+        }
         if (typeof scroll !== 'undefined' && scroll && typeof scroll.update === 'function') {
           setTimeout(function () { scroll.update(); if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh(); }, 50);
         }
       }
       document.addEventListener('click', function (event) {
-        var filterButton = event.target.closest('.design-btn, .development-btn');
+        var filterButton = event.target.closest('.design-btn, .development-btn, .blogs-btn');
         if (!filterButton) return;
         event.preventDefault();
         event.stopImmediatePropagation();
-        activateWorkFilter(filterButton.classList.contains('development-btn') ? 'development' : 'design');
+        activateWorkFilter(filterButton.classList.contains('blogs-btn') ? 'blogs' : filterButton.classList.contains('development-btn') ? 'development' : 'design');
       }, true);
+      document.querySelector('.blogs-btn').addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          activateWorkFilter('blogs');
+        }
+      });
       document.querySelectorAll('[data-scroll-target]').forEach(function (link) {
         link.addEventListener('click', function (event) {
           event.preventDefault();

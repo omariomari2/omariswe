@@ -1435,6 +1435,14 @@ main.touch .main-wrap {
    max-height: calc(clamp(1.75em, 2.3vw, 2.5em) + 4.4em);
 }
 
+.small-work-grid .work-items li.blogs.visible {
+   max-height: none;
+}
+
+.work-items li.blogs h4 {
+   line-height: 1.2;
+}
+
 .small-work-grid .work-items {
    padding-bottom: calc(var(--section-padding) * .5);
 }
@@ -1664,6 +1672,8 @@ main.touch .main-wrap {
 
 .work-filters .filter-row .toggle-row {
    display: flex;
+   flex-wrap: wrap;
+   row-gap: .5em;
 }
 
 .work-filters .filter-row .toggle-row .btn {
