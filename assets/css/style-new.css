@@ -893,8 +893,8 @@ main.touch .main-wrap {
    width: fit-content;
    max-width: 100%;
    pointer-events: none;
-   padding-left: calc(var(--gap-padding) / 2);
-   padding-right: calc(var(--gap-padding) / 2);
+   padding-left: var(--gap-padding);
+   padding-right: var(--gap-padding);
    padding-bottom: calc(var(--gap-padding) * 1.25);
 }
 
@@ -997,6 +997,9 @@ main.touch .main-wrap {
       position: absolute;
       top: 78vh;
       left: 0;
+      max-width: none;
+      padding-left: var(--gap-padding);
+      padding-right: var(--gap-padding);
       padding-bottom: 0;
    }
 
@@ -1009,6 +1012,11 @@ main.touch .main-wrap {
    .home-header .row .hero-title-group {
       position: relative;
       top: 0;
+   }
+
+   .home-header .row .hero-title-hint {
+      left: auto;
+      right: 0;
    }
 }
 
@@ -1217,6 +1225,10 @@ main.touch .main-wrap {
       margin-top: 0;
       margin-bottom: .7em;
       font-size: .85rem;
+   }
+
+   .home-header .hero-profile-links {
+      margin-top: 1em;
    }
 
    .home-header .hero-title-hint {
