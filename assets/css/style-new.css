@@ -1139,6 +1139,54 @@ main.touch .main-wrap {
    display: none;
 }
 
+/* Coastline transition into #about. .hero-coastline paints the tide over the
+   hero; the name row and the Engineer block sit above it, and .hero-coastline-ink
+   (difference blend) turns their white text dark wherever the tide is behind it.
+   Both stay hidden (plain cut) unless WebGL starts and motion is allowed. */
+.home-header .hero-coastline,
+.home-header .hero-coastline-ink {
+   position: absolute;
+   inset: 0;
+   width: 100%;
+   height: 100%;
+   display: block;
+   pointer-events: none;
+   z-index: 11;
+   visibility: hidden;
+   /* both layers upscale identically (DPR is capped at 2), so the ink zones
+      line up pixel for pixel instead of leaving a filtered grey outline */
+   image-rendering: pixelated;
+}
+
+.home-header .hero-coastline-ink {
+   z-index: 13;
+   mix-blend-mode: difference;
+}
+
+.home-header .hero-coastline.is-ready,
+.home-header .hero-coastline-ink.is-ready {
+   visibility: visible;
+}
+
+.home-header .big-name,
+.home-header > .container {
+   z-index: 12;
+}
+
+.home-header > .container {
+   pointer-events: none;
+}
+
+.home-header .hero-title-group {
+   pointer-events: auto;
+}
+
+@media screen and (max-width: 720px) {
+   .home-header > .container {
+      position: relative;
+   }
+}
+
 .home-header .hanger-chat-image {
    display: block;
    z-index: 500;
