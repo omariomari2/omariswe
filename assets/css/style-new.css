@@ -1153,9 +1153,6 @@ main.touch .main-wrap {
    pointer-events: none;
    z-index: 11;
    visibility: hidden;
-   /* both layers upscale identically (DPR is capped at 2), so the ink zones
-      line up pixel for pixel instead of leaving a filtered grey outline */
-   image-rendering: pixelated;
 }
 
 .home-header .hero-coastline-ink {

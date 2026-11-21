@@ -85,21 +85,21 @@
     '}',
     'void main() {',
     '  vec2 px = vec2(vUv.x * uSize.x, (1.0 - vUv.y) * uSize.y);', // canvas css px, top-left origin
-    '  float vy = uTop + px.y;',                                    // viewport y
-    '  float h = uSize.y - px.y;',                                  // height above hero bottom
-    '  vec2 nUv = vec2(px.x - uSize.x * 0.5, -vy) / uViewH * uScale + 0.5;',
+        '  float h = uSize.y - px.y;',                                  // height above hero bottom
+    '  vec2 nUv = vec2(px.x - uSize.x * 0.5, -px.y) / uViewH * uScale + 0.5;',
     '  float amount = 320.0 / uSize.x + uSeed;',
     '  float hAmp = uAmp * 0.5;',
-    '  float tide = h < uRise ? 1.0 : 0.0; float foam = 0.0;',
+    '  float tide = h < uRise ? 1.0 : 0.0; float foam = 0.0; float n = -1.0;',
     '  if (uAmp > 0.0 && abs(h - uRise) < hAmp + uAA) {',
-    '    float n = fbm(turbulence(nUv, amount));',
+    '    n = fbm(turbulence(nUv, amount));',
     '    float e = h + (n - 0.5) * uAmp;',
     '    tide = 1.0 - smoothstep(uRise - uAA, uRise + uAA, e);',
     '  }',
     '  float fr = uRise + uViewH * 0.018;',
     '  if (uFoam > 0.0 && uAmp > 0.0 && abs(h - fr) < hAmp + uAA) {',
-    '    float n2 = fbm(turbulence(nUv * 1.6 + 3.1, amount));',
-    '    float e2 = h + (n2 - 0.5) * uAmp * 0.55 + (fbm(turbulence(nUv, amount)) - 0.5) * uAmp * 0.45;',
+    '    if (n < 0.0) n = fbm(turbulence(nUv, amount));',
+    '    float n2 = fbm(nUv * 1.6 + 3.1);',
+    '    float e2 = h + (n2 - 0.5) * uAmp * 0.55 + (n - 0.5) * uAmp * 0.45;',
     '    foam = (1.0 - smoothstep(fr - uAA * 2.0, fr + uAA * 2.0, e2)) * uFoam;',
     '  } else if (h < fr) { foam = uFoam; }',
     '  float dz = min(boxDist(px, uZone0), boxDist(px, uZone1));',
@@ -165,7 +165,7 @@
 
   var cssW = 1, cssH = 1, dpr = 1;
   function resize() {
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    dpr = Math.min(window.devicePixelRatio || 1, 3);
     cssW = Math.max(1, canvas.clientWidth);
     cssH = Math.max(1, canvas.clientHeight);
     canvas.width = ink.width = Math.round(cssW * dpr);
@@ -177,6 +177,12 @@
 
   var raf = 0, visible = false;
   function draw() {
+    hookLoco();
+    render();
+    if (visible) raf = requestAnimationFrame(draw);
+  }
+
+  function render() {
     var vh = window.innerHeight || 1;
     var rect = canvas.getBoundingClientRect();
     var bottom = rect.top + cssH;
@@ -232,7 +238,6 @@
       ctx2d.fillRect(0, 0, ink.width, ink.height);
       ctx2d.globalCompositeOperation = 'source-over';
     }
-    if (visible) raf = requestAnimationFrame(draw);
   }
 
   if ('ResizeObserver' in window) new ResizeObserver(resize).observe(canvas);
@@ -260,6 +265,19 @@
 
   canvas.addEventListener('webglcontextlost', function (e) { e.preventDefault(); stop(); });
   if (reduce.addEventListener) reduce.addEventListener('change', function (e) { if (e.matches) stop(); });
+
+  // With Locomotive (desktop), also draw inside its scroll event so the edge is
+  // computed from the transform it just applied, not last frame's.
+  var hooked = false;
+  function hookLoco() {
+    if (hooked) return;
+    try {
+      if (typeof scroll !== 'undefined' && scroll && typeof scroll.on === 'function') {
+        scroll.on('scroll', function () { if (visible) render(); });
+        hooked = true;
+      }
+    } catch (e) { hooked = true; }
+  }
 
   draw();
   canvas.classList.add('is-ready');
